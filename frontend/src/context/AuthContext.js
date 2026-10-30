@@ -61,7 +61,15 @@ export function AuthProvider({ children }) {
 
   const register = async (userData) => {
     const res = await api.post('/auth/register', userData);
-    return res;
+    if (res.success && res.data) {
+      const { token: newToken, user: newUser } = res.data;
+      setToken(newToken);
+      setUser(newUser);
+      localStorage.setItem('hc_token', newToken);
+      localStorage.setItem('hc_user', JSON.stringify(newUser));
+      return newUser;
+    }
+    throw new Error(res.message || 'Registration failed');
   };
 
   const verifyEmailWithToken = async (tokenString) => {

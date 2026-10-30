@@ -6,13 +6,12 @@ const {
   getTicketPass,
   cancelBooking,
 } = require('../controllers/bookingController');
-const { authenticateToken, requireVerifiedUser } = require('../middleware/authMiddleware');
+const { authenticateToken } = require('../middleware/authMiddleware');
 
-// Authenticated booking endpoints (protected: require verified email for visitors)
-router.post('/', authenticateToken, requireVerifiedUser, createBooking);
-router.get('/my-bookings', authenticateToken, requireVerifiedUser, getMyBookings);
-router.get('/:id', authenticateToken, requireVerifiedUser, getTicketPass);
-router.patch('/:id/cancel', authenticateToken, requireVerifiedUser, cancelBooking);
+// Authenticated booking endpoints
+router.post('/', authenticateToken, createBooking);
+router.get('/my-bookings', authenticateToken, getMyBookings);
+router.get('/:id', authenticateToken, getTicketPass);
+router.patch('/:id/cancel', authenticateToken, cancelBooking);
 
 module.exports = router;
-

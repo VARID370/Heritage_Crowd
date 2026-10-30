@@ -151,16 +151,6 @@ export default function BookingFlowPage() {
           <div className="flex-1">
             <h4 className="font-bold">Booking Notice</h4>
             <p className="mt-0.5">{error}</p>
-            {error.toLowerCase().includes('verification') && (
-              <div className="mt-2">
-                <Link
-                  href="/verify-email"
-                  className="font-bold underline text-rose-950 hover:text-black inline-flex items-center gap-1"
-                >
-                  Go to Email Verification <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            )}
           </div>
         </div>
       )}

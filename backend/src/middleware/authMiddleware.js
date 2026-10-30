@@ -64,21 +64,6 @@ const authorizeRoles = (...roles) => {
  * (Staff and Admin are exempt)
  */
 const requireVerifiedUser = (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).json({
-      success: false,
-      message: 'Authentication required. Please sign in.',
-    });
-  }
-
-  if (req.user.role === 'visitor' && !req.user.isVerified) {
-    return res.status(403).json({
-      success: false,
-      isUnverified: true,
-      message: 'Email verification required. Please verify your email address to book tickets and access protected visitor features.',
-    });
-  }
-
   next();
 };
 

@@ -16,22 +16,17 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isUnverified, setIsUnverified] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-    setIsUnverified(false);
 
     try {
       await login(email, password);
       router.push(redirect);
     } catch (err) {
       setError(err.message || 'Login failed. Please verify your credentials.');
-      if (err.data?.isUnverified || err.message?.toLowerCase().includes('not verified')) {
-        setIsUnverified(true);
-      }
     } finally {
       setIsLoading(false);
     }
@@ -55,21 +50,9 @@ export default function LoginPage() {
 
         {/* Error Alert */}
         {error && (
-          <div className="p-4 rounded-2xl border border-rose-200 bg-rose-50 text-rose-800 text-xs space-y-2">
-            <div className="flex items-start gap-2">
-              <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
-              <span className="font-medium">{error}</span>
-            </div>
-            {isUnverified && (
-              <div className="pt-2 border-t border-rose-200 flex justify-end">
-                <Link
-                  href={`/verify-email?email=${encodeURIComponent(email)}`}
-                  className="font-bold underline text-rose-900 hover:text-rose-950 flex items-center gap-1"
-                >
-                  Verify your email now <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            )}
+          <div className="p-4 rounded-2xl border border-rose-200 bg-rose-50 text-rose-800 text-xs flex items-start gap-2">
+            <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
+            <span className="font-medium">{error}</span>
           </div>
         )}
 

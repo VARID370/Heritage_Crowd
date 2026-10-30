@@ -45,7 +45,7 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      const res = await register({
+      await register({
         name: formData.name.trim(),
         email: formData.email.trim(),
         password: formData.password,
@@ -53,10 +53,8 @@ export default function RegisterPage() {
         phone: formData.phone.trim() || undefined,
       });
 
-      // Redirect to email verification page with the email pre-populated
-      const emailParam = encodeURIComponent(formData.email.trim());
-      const sentParam = res.data?.emailSent ? 'true' : 'false';
-      router.push(`/verify-email?email=${emailParam}&sent=${sentParam}`);
+      // Immediate redirect to homepage / dashboard
+      router.push('/');
     } catch (err) {
       setError(err.message || 'Registration failed. Please check the details entered.');
     } finally {
