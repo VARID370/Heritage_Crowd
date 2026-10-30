@@ -5,7 +5,9 @@ const connectDB = async () => {
     const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/heritage_connect', {
       serverSelectionTimeoutMS: 5000,
     });
-    console.log(`[MongoDB] Connected to database: ${conn.connection.name} @ ${conn.connection.host}:${conn.connection.port}`);
+    const isAtlas = conn.connection.host && conn.connection.host.includes('mongodb.net');
+    const location = isAtlas ? 'MongoDB Atlas (Cloud Cluster)' : `Local MongoDB @ ${conn.connection.host}:${conn.connection.port}`;
+    console.log(`[MongoDB] Connected to database: ${conn.connection.name} via ${location}`);
     return conn;
   } catch (error) {
     console.error(`[MongoDB Connection Error]: ${error.message}`);

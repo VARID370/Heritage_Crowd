@@ -149,8 +149,18 @@ export default function BookingFlowPage() {
         <div className="p-4 rounded-2xl border border-rose-200 bg-rose-50 text-rose-800 text-xs sm:text-sm flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-rose-600 flex-shrink-0 mt-0.5" />
           <div className="flex-1">
-            <h4 className="font-bold">Booking Warning</h4>
+            <h4 className="font-bold">Booking Notice</h4>
             <p className="mt-0.5">{error}</p>
+            {error.toLowerCase().includes('verification') && (
+              <div className="mt-2">
+                <Link
+                  href="/verify-email"
+                  className="font-bold underline text-rose-950 hover:text-black inline-flex items-center gap-1"
+                >
+                  Go to Email Verification <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}

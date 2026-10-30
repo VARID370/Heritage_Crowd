@@ -24,6 +24,7 @@ const seedData = async () => {
       password: 'Admin@123456',
       role: 'admin',
       phone: '+91 98765 43210',
+      isVerified: true,
     });
 
     const staffUser = await User.create({
@@ -32,6 +33,7 @@ const seedData = async () => {
       password: 'Staff@123456',
       role: 'staff',
       phone: '+91 98765 12345',
+      isVerified: true,
     });
 
     const visitorUser = await User.create({
@@ -40,6 +42,7 @@ const seedData = async () => {
       password: 'Visitor@123456',
       role: 'visitor',
       phone: '+91 91234 56789',
+      isVerified: true,
     });
 
     console.log('  ✓ Admin:   admin@heritageconnect.org / Admin@123456');

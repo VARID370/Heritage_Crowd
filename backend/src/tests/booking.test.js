@@ -25,21 +25,33 @@ describe('Ticket Booking, Concurrency & Cancellation Tests', () => {
     await BookableSite.deleteMany({ osmId: 'node/test-monument-999' });
 
     // Create primary visitor
-    const resUser1 = await request(app).post('/api/auth/register').send({
+    const u1 = await User.create({
       name: 'Primary Visitor',
       email: 'bookingtester1@example.com',
       password: 'Password@123',
+      role: 'visitor',
+      isVerified: true,
     });
-    visitorToken = resUser1.body.data.token;
-    visitorId = resUser1.body.data.user.id;
+    visitorId = u1._id.toString();
+    const l1 = await request(app).post('/api/auth/login').send({
+      email: 'bookingtester1@example.com',
+      password: 'Password@123',
+    });
+    visitorToken = l1.body.data.token;
 
     // Create secondary visitor
-    const resUser2 = await request(app).post('/api/auth/register').send({
+    await User.create({
       name: 'Other Visitor',
       email: 'bookingtester2@example.com',
       password: 'Password@123',
+      role: 'visitor',
+      isVerified: true,
     });
-    otherVisitorToken = resUser2.body.data.token;
+    const l2 = await request(app).post('/api/auth/login').send({
+      email: 'bookingtester2@example.com',
+      password: 'Password@123',
+    });
+    otherVisitorToken = l2.body.data.token;
 
     // Create test bookable site with verified fee = 100
     testSite = await BookableSite.create({

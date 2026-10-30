@@ -29,15 +29,20 @@ export default function MyBookingsPage() {
   const [filterStatus, setFilterStatus] = useState('all');
   const [cancellingId, setCancellingId] = useState(null);
   const [actionMessage, setActionMessage] = useState(null);
+  const [isUnverified, setIsUnverified] = useState(false);
 
   const fetchBookings = async () => {
     setIsLoading(true);
+    setIsUnverified(false);
     try {
       const res = await api.get('/bookings/my-bookings');
       if (res.success && Array.isArray(res.data)) {
         setBookings(res.data);
       }
     } catch (err) {
+      if (err.data?.isUnverified || err.status === 403) {
+        setIsUnverified(true);
+      }
       console.error('Error fetching bookings:', err);
     } finally {
       setIsLoading(false);
@@ -144,6 +149,27 @@ export default function MyBookingsPage() {
           <span>Explore More Sites</span>
         </Link>
       </div>
+
+      {/* Unverified Banner */}
+      {isUnverified && (
+        <div className="p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <h3 className="font-semibold text-sm">Email Verification Required</h3>
+              <p className="text-xs text-amber-800 mt-0.5">
+                Please verify your personal email address to view and manage your passes.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/verify-email"
+            className="py-2 px-4 rounded-xl bg-amber-700 hover:bg-amber-800 text-white text-xs font-semibold whitespace-nowrap shadow-sm"
+          >
+            Verify Email Now
+          </Link>
+        </div>
+      )}
 
       {/* Action Notification */}
       {actionMessage && (

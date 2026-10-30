@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Landmark, Mail, Lock, AlertCircle, ArrowRight, ShieldCheck, UserCheck } from 'lucide-react';
+import { Landmark, Mail, Lock, AlertCircle, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
 export default function LoginPage() {
@@ -12,29 +12,29 @@ export default function LoginPage() {
   const redirect = searchParams.get('redirect') || '/';
 
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(searchParams.get('email') || '');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isUnverified, setIsUnverified] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+    setIsUnverified(false);
+
     try {
       await login(email, password);
       router.push(redirect);
     } catch (err) {
-      setError(err.message || 'Login failed. Please verify credentials.');
+      setError(err.message || 'Login failed. Please verify your credentials.');
+      if (err.data?.isUnverified || err.message?.toLowerCase().includes('not verified')) {
+        setIsUnverified(true);
+      }
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const fillDemo = (demoEmail, demoPass) => {
-    setEmail(demoEmail);
-    setPassword(demoPass);
-    setError(null);
   };
 
   return (
@@ -49,46 +49,27 @@ export default function LoginPage() {
             Sign In to HeritageConnect
           </h1>
           <p className="text-xs sm:text-sm text-charcoal-500">
-            Access your booked tickets, crowd passes, and administrative controls.
+            Enter your personal email and password to access your bookings and verified passes.
           </p>
-        </div>
-
-        {/* Demo Viva Helper Box */}
-        <div className="p-3.5 rounded-2xl bg-sandstone-50 border border-sandstone-200 text-xs text-charcoal-700 space-y-2">
-          <div className="flex items-center gap-1.5 font-semibold text-sandstone-800">
-            <UserCheck className="w-4 h-4 text-sandstone-700" />
-            <span>College Viva Demo Accounts:</span>
-          </div>
-          <div className="grid grid-cols-3 gap-2">
-            <button
-              type="button"
-              onClick={() => fillDemo('visitor@heritageconnect.org', 'Visitor@123456')}
-              className="py-1.5 px-2 rounded-lg bg-white hover:bg-sandstone-100 border border-sandstone-300 font-medium text-charcoal-800 text-[11px] transition-colors"
-            >
-              Visitor
-            </button>
-            <button
-              type="button"
-              onClick={() => fillDemo('staff@heritageconnect.org', 'Staff@123456')}
-              className="py-1.5 px-2 rounded-lg bg-white hover:bg-gold-50 border border-gold-300 font-medium text-gold-900 text-[11px] transition-colors"
-            >
-              Gate Staff
-            </button>
-            <button
-              type="button"
-              onClick={() => fillDemo('admin@heritageconnect.org', 'Admin@123456')}
-              className="py-1.5 px-2 rounded-lg bg-white hover:bg-sandstone-200 border border-sandstone-400 font-bold text-charcoal-900 text-[11px] transition-colors"
-            >
-              Admin
-            </button>
-          </div>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="p-3.5 rounded-xl border border-rose-200 bg-rose-50 text-rose-800 text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />
-            <span>{error}</span>
+          <div className="p-4 rounded-2xl border border-rose-200 bg-rose-50 text-rose-800 text-xs space-y-2">
+            <div className="flex items-start gap-2">
+              <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
+              <span className="font-medium">{error}</span>
+            </div>
+            {isUnverified && (
+              <div className="pt-2 border-t border-rose-200 flex justify-end">
+                <Link
+                  href={`/verify-email?email=${encodeURIComponent(email)}`}
+                  className="font-bold underline text-rose-900 hover:text-rose-950 flex items-center gap-1"
+                >
+                  Verify your email now <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            )}
           </div>
         )}
 
@@ -97,14 +78,14 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-charcoal-700 mb-1">
-                Email Address
+                Personal Email Address
               </label>
               <div className="flex items-center px-3.5 py-2.5 bg-ivory-50 rounded-xl border border-sandstone-300 focus-within:border-sandstone-600">
                 <Mail className="w-4 h-4 text-sandstone-600 mr-2 flex-shrink-0" />
                 <input
                   type="email"
                   required
-                  placeholder="name@example.com"
+                  placeholder="yourname@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-transparent text-sm focus:outline-none"
@@ -143,7 +124,7 @@ export default function LoginPage() {
             <p className="text-xs text-charcoal-500">
               Don&apos;t have an account yet?{' '}
               <Link href="/register" className="font-semibold text-sandstone-700 hover:text-sandstone-900 underline">
-                Create one now
+                Create personal account
               </Link>
             </p>
           </div>
@@ -152,4 +133,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

@@ -33,6 +33,35 @@ const userSchema = new mongoose.Schema(
       trim: true,
       default: '',
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      default: null,
+      select: false,
+    },
+    verificationTokenExpires: {
+      type: Date,
+      default: null,
+      select: false,
+    },
+    verificationOtp: {
+      type: String,
+      default: null,
+      select: false,
+    },
+    verificationOtpExpires: {
+      type: Date,
+      default: null,
+      select: false,
+    },
+    lastVerificationEmailSentAt: {
+      type: Date,
+      default: null,
+      select: false,
+    },
   },
   {
     timestamps: true,

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Landmark, Mail, Lock, User, Phone, AlertCircle, ArrowRight } from 'lucide-react';
+import { Landmark, Mail, Lock, User, Phone, AlertCircle, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
 export default function RegisterPage() {
@@ -14,21 +14,51 @@ export default function RegisterPage() {
     name: '',
     email: '',
     password: '',
+    confirmPassword: '',
     phone: '',
   });
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Simple client-side checks for instant feedback
+  const hasMinLength = formData.password.length >= 8;
+  const hasLower = /[a-z]/.test(formData.password);
+  const hasUpper = /[A-Z]/.test(formData.password);
+  const hasNumber = /[0-9]/.test(formData.password);
+  const passwordsMatch = formData.password && formData.confirmPassword && formData.password === formData.confirmPassword;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     setError(null);
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match. Please re-enter your password.');
+      return;
+    }
+
+    if (!hasMinLength || !hasLower || !hasUpper || !hasNumber) {
+      setError('Password must be at least 8 characters and include uppercase, lowercase, and a number.');
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
-      await register(formData);
-      router.push('/');
+      const res = await register({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+        phone: formData.phone.trim() || undefined,
+      });
+
+      // Redirect to email verification page with the email pre-populated
+      const emailParam = encodeURIComponent(formData.email.trim());
+      const sentParam = res.data?.emailSent ? 'true' : 'false';
+      router.push(`/verify-email?email=${emailParam}&sent=${sentParam}`);
     } catch (err) {
-      setError(err.message || 'Registration failed.');
+      setError(err.message || 'Registration failed. Please check the details entered.');
     } finally {
       setIsLoading(false);
     }
@@ -43,10 +73,10 @@ export default function RegisterPage() {
             <Landmark className="w-6 h-6 text-gold-300" />
           </div>
           <h1 className="font-serif text-2xl sm:text-3xl font-bold text-charcoal-900">
-            Create an Account
+            Create Your Account
           </h1>
           <p className="text-xs sm:text-sm text-charcoal-500">
-            Join HeritageConnect to book tickets and manage monument visits.
+            Register with your personal email to explore monuments and book official passes.
           </p>
         </div>
 
@@ -70,7 +100,7 @@ export default function RegisterPage() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Aarav Sharma"
+                  placeholder="e.g. Varid Sharma"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full bg-transparent text-sm focus:outline-none"
@@ -80,14 +110,14 @@ export default function RegisterPage() {
 
             <div>
               <label className="block text-xs font-semibold text-charcoal-700 mb-1">
-                Email Address
+                Personal Email Address
               </label>
               <div className="flex items-center px-3.5 py-2.5 bg-ivory-50 rounded-xl border border-sandstone-300 focus-within:border-sandstone-600">
                 <Mail className="w-4 h-4 text-sandstone-600 mr-2 flex-shrink-0" />
                 <input
                   type="email"
                   required
-                  placeholder="name@example.com"
+                  placeholder="yourname@gmail.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full bg-transparent text-sm focus:outline-none"
@@ -104,12 +134,46 @@ export default function RegisterPage() {
                 <input
                   type="password"
                   required
-                  placeholder="At least 6 characters"
+                  placeholder="At least 8 characters (A-Z, a-z, 0-9)"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   className="w-full bg-transparent text-sm focus:outline-none"
                 />
               </div>
+              {/* Password requirement hints */}
+              <div className="mt-1.5 flex flex-wrap gap-2 text-[10px] text-charcoal-500">
+                <span className={hasMinLength ? 'text-emerald-700 font-semibold' : ''}>
+                  • 8+ chars
+                </span>
+                <span className={hasUpper && hasLower ? 'text-emerald-700 font-semibold' : ''}>
+                  • Upper & lowercase
+                </span>
+                <span className={hasNumber ? 'text-emerald-700 font-semibold' : ''}>
+                  • Number
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-charcoal-700 mb-1">
+                Confirm Password
+              </label>
+              <div className="flex items-center px-3.5 py-2.5 bg-ivory-50 rounded-xl border border-sandstone-300 focus-within:border-sandstone-600">
+                <Lock className="w-4 h-4 text-sandstone-600 mr-2 flex-shrink-0" />
+                <input
+                  type="password"
+                  required
+                  placeholder="Re-enter password"
+                  value={formData.confirmPassword}
+                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  className="w-full bg-transparent text-sm focus:outline-none"
+                />
+              </div>
+              {formData.confirmPassword && (
+                <p className={`mt-1 text-[11px] font-medium ${passwordsMatch ? 'text-emerald-600' : 'text-rose-600'}`}>
+                  {passwordsMatch ? '✓ Passwords match' : '✗ Passwords do not match'}
+                </p>
+              )}
             </div>
 
             <div>
@@ -133,7 +197,7 @@ export default function RegisterPage() {
               disabled={isLoading}
               className="w-full py-3 px-4 rounded-xl bg-sandstone-700 hover:bg-sandstone-800 disabled:opacity-50 text-ivory-50 text-sm font-semibold flex items-center justify-center gap-2 shadow-sm transition-all"
             >
-              <span>{isLoading ? 'Creating Account...' : 'Complete Registration'}</span>
+              <span>{isLoading ? 'Creating Account...' : 'Register Account'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
@@ -151,4 +215,3 @@ export default function RegisterPage() {
     </div>
   );
 }
-

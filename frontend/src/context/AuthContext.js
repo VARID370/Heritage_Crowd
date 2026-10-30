@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
             }
           } catch (err) {
             console.warn('[AuthContext] Session verification failed:', err.message);
-            // If token expired, clear
+            // If token expired, clear session
             if (err.status === 401) {
               logout();
             }
@@ -61,6 +61,11 @@ export function AuthProvider({ children }) {
 
   const register = async (userData) => {
     const res = await api.post('/auth/register', userData);
+    return res;
+  };
+
+  const verifyEmailWithToken = async (tokenString) => {
+    const res = await api.post('/auth/verify-email', { token: tokenString });
     if (res.success && res.data) {
       const { token: newToken, user: newUser } = res.data;
       setToken(newToken);
@@ -69,7 +74,25 @@ export function AuthProvider({ children }) {
       localStorage.setItem('hc_user', JSON.stringify(newUser));
       return newUser;
     }
-    throw new Error(res.message || 'Registration failed');
+    throw new Error(res.message || 'Verification failed');
+  };
+
+  const verifyOtpCode = async (email, otp) => {
+    const res = await api.post('/auth/verify-otp', { email, otp });
+    if (res.success && res.data) {
+      const { token: newToken, user: newUser } = res.data;
+      setToken(newToken);
+      setUser(newUser);
+      localStorage.setItem('hc_token', newToken);
+      localStorage.setItem('hc_user', JSON.stringify(newUser));
+      return newUser;
+    }
+    throw new Error(res.message || 'Verification failed');
+  };
+
+  const resendVerificationEmail = async (email) => {
+    const res = await api.post('/auth/resend-verification', { email });
+    return res;
   };
 
   const logout = async () => {
@@ -87,6 +110,7 @@ export function AuthProvider({ children }) {
 
   const isAdmin = user?.role === 'admin';
   const isStaff = user?.role === 'staff' || user?.role === 'admin';
+  const isVerified = !!user?.isVerified;
 
   return (
     <AuthContext.Provider
@@ -96,9 +120,13 @@ export function AuthProvider({ children }) {
         isAuthenticated: !!user,
         isAdmin,
         isStaff,
+        isVerified,
         isLoading,
         login,
         register,
+        verifyEmailWithToken,
+        verifyOtpCode,
+        resendVerificationEmail,
         logout,
       }}
     >
@@ -114,4 +142,3 @@ export function useAuth() {
   }
   return context;
 }
-

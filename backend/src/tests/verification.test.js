@@ -29,22 +29,33 @@ describe('QR Ticket Verification & Entry Management Tests', () => {
     await User.deleteMany({ email: { $in: ['staff_verifier@example.com', 'visitor_verify@example.com'] } });
 
     // Create staff account
-    const staffRes = await request(app).post('/api/auth/register').send({
+    await User.create({
       name: 'Gate Verifier Staff',
       email: 'staff_verifier@example.com',
       password: 'Password@123',
       role: 'staff',
+      isVerified: true,
     });
-    staffToken = staffRes.body.data.token;
+    const sLogin = await request(app).post('/api/auth/login').send({
+      email: 'staff_verifier@example.com',
+      password: 'Password@123',
+    });
+    staffToken = sLogin.body.data.token;
 
     // Create visitor account
-    const visitorRes = await request(app).post('/api/auth/register').send({
+    const vUser = await User.create({
       name: 'Visitor Person',
       email: 'visitor_verify@example.com',
       password: 'Password@123',
+      role: 'visitor',
+      isVerified: true,
     });
-    visitorToken = visitorRes.body.data.token;
-    const visitorId = visitorRes.body.data.user.id;
+    const vLogin = await request(app).post('/api/auth/login').send({
+      email: 'visitor_verify@example.com',
+      password: 'Password@123',
+    });
+    visitorToken = vLogin.body.data.token;
+    const visitorId = vUser._id.toString();
 
     // Create test site
     testSite = await BookableSite.create({

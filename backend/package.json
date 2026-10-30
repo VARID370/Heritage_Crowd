@@ -9,7 +9,14 @@
     "seed": "node src/scripts/seed.js",
     "test": "jest --runInBand --detectOpenHandles --forceExit"
   },
-  "keywords": ["heritage", "tourism", "ticketing", "crowd-management", "express", "mongodb"],
+  "keywords": [
+    "heritage",
+    "tourism",
+    "ticketing",
+    "crowd-management",
+    "express",
+    "mongodb"
+  ],
   "author": "HeritageConnect Team",
   "license": "ISC",
   "dependencies": {
@@ -23,6 +30,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5",
     "morgan": "^1.10.0",
+    "nodemailer": "^10.3.1",
     "qrcode": "^1.5.4",
     "zod": "^3.24.1"
   },
@@ -36,4 +44,3 @@
     "testTimeout": 30000
   }
 }
-
