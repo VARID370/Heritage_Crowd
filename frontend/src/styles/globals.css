@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #FCFBF8;
+  --foreground: #1C1917;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F5ECE0;
+}
+::-webkit-scrollbar-thumb {
+  background: #C99E74;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B47B49;
+}
+
+/* Print Styles for Tickets */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .ticket-container {
+    box-shadow: none !important;
+    border: 2px solid #000000 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+}
+
