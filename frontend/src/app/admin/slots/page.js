@@ -10,6 +10,7 @@ import {
   CheckCircle2,
   AlertCircle,
   Landmark,
+  Sparkles,
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { formatDate } from '@/lib/utils';
@@ -97,33 +98,33 @@ export default function AdminSlotsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="font-serif text-2xl font-bold text-charcoal-900">
+          <h2 className="font-serif text-2xl font-bold text-ivory-50">
             Time Slot & Capacity Management
           </h2>
-          <p className="text-xs sm:text-sm text-charcoal-500">
+          <p className="text-xs sm:text-sm text-charcoal-300 font-light mt-0.5">
             Configure visiting windows and monitor crowd allocation for each monument.
           </p>
         </div>
 
         <button
           onClick={() => setShowAddForm(!showAddForm)}
-          className="px-4 py-2.5 rounded-xl bg-sandstone-700 hover:bg-sandstone-800 text-ivory-50 text-xs font-semibold flex items-center gap-2 shadow-sm transition-all"
+          className="btn-gold px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 shadow-sm"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4 text-navy-950" />
           <span>{showAddForm ? 'Close Form' : 'Create New Slot'}</span>
         </button>
       </div>
 
       {/* Filter Selector Bar */}
-      <div className="bg-white p-5 rounded-2xl border border-sandstone-200 shadow-sm grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="glass-card p-5 rounded-2xl grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-semibold text-charcoal-700 mb-1">
+          <label className="block text-xs font-semibold text-charcoal-300 mb-1.5 uppercase tracking-wider">
             Select Monument
           </label>
           <select
             value={selectedSiteId}
             onChange={(e) => setSelectedSiteId(e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-xl border border-sandstone-300 bg-ivory-50 text-xs font-bold text-charcoal-900 focus:outline-none focus:border-sandstone-600"
+            className="w-full px-3.5 py-2.5 rounded-xl border border-white/[0.1] bg-navy-950 text-xs font-bold text-gold-300 focus:outline-none focus:border-gold-500/50"
           >
             {sites.map((s) => (
               <option key={s._id} value={s._id}>
@@ -134,14 +135,14 @@ export default function AdminSlotsPage() {
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-charcoal-700 mb-1">
+          <label className="block text-xs font-semibold text-charcoal-300 mb-1.5 uppercase tracking-wider">
             Slot Date
           </label>
           <input
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-xl border border-sandstone-300 bg-ivory-50 text-xs font-bold text-charcoal-900 focus:outline-none focus:border-sandstone-600"
+            className="w-full px-3.5 py-2.5 rounded-xl border border-white/[0.1] bg-navy-950 text-xs font-bold text-ivory-50 focus:outline-none focus:border-gold-500/50"
           />
         </div>
       </div>
@@ -149,16 +150,16 @@ export default function AdminSlotsPage() {
       {/* Notification */}
       {message && (
         <div
-          className={`p-3.5 rounded-xl border text-xs flex items-center gap-2 ${
+          className={`p-3.5 rounded-xl border text-xs flex items-center gap-2.5 backdrop-blur-md ${
             message.type === 'success'
-              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
-              : 'bg-rose-50 border-rose-200 text-rose-800'
+              ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-300'
+              : 'bg-rose-500/15 border-rose-500/30 text-rose-300'
           }`}
         >
           {message.type === 'success' ? (
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           ) : (
-            <AlertCircle className="w-4 h-4 text-rose-600" />
+            <AlertCircle className="w-4 h-4 text-rose-400" />
           )}
           <span>{message.text}</span>
         </div>
@@ -166,38 +167,38 @@ export default function AdminSlotsPage() {
 
       {/* Add Slot Form Drawer */}
       {showAddForm && (
-        <div className="bg-white p-6 rounded-3xl border border-sandstone-300 shadow-md space-y-4 animate-in fade-in">
-          <h3 className="font-serif text-base font-bold text-charcoal-900">
+        <div className="glass-panel-gold p-6 rounded-3xl space-y-4 animate-in fade-in shadow-glass-card">
+          <h3 className="font-serif text-base font-bold text-ivory-50">
             Create Time Slot for {formatDate(selectedDate)}
           </h3>
 
           <form onSubmit={handleCreateSlot} className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
             <div>
-              <label className="block font-semibold text-charcoal-700 mb-1">Start Time (24h)</label>
+              <label className="block font-semibold text-charcoal-300 mb-1 uppercase tracking-wider">Start Time (24h)</label>
               <input
                 type="text"
                 required
                 placeholder="09:00"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-sandstone-300 bg-ivory-50 font-bold"
+                className="w-full px-3 py-2 rounded-xl border border-white/[0.1] bg-navy-950 text-gold-300 font-mono font-bold"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-charcoal-700 mb-1">End Time (24h)</label>
+              <label className="block font-semibold text-charcoal-300 mb-1 uppercase tracking-wider">End Time (24h)</label>
               <input
                 type="text"
                 required
                 placeholder="12:00"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-sandstone-300 bg-ivory-50 font-bold"
+                className="w-full px-3 py-2 rounded-xl border border-white/[0.1] bg-navy-950 text-gold-300 font-mono font-bold"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-charcoal-700 mb-1">Slot Capacity</label>
+              <label className="block font-semibold text-charcoal-300 mb-1 uppercase tracking-wider">Slot Capacity</label>
               <input
                 type="number"
                 required
@@ -205,7 +206,7 @@ export default function AdminSlotsPage() {
                 placeholder="150"
                 value={capacity}
                 onChange={(e) => setCapacity(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-sandstone-300 bg-ivory-50 font-bold"
+                className="w-full px-3 py-2 rounded-xl border border-white/[0.1] bg-navy-950 text-ivory-50 font-bold"
               />
             </div>
 
@@ -213,13 +214,13 @@ export default function AdminSlotsPage() {
               <button
                 type="button"
                 onClick={() => setShowAddForm(false)}
-                className="px-4 py-2 rounded-xl border border-sandstone-300 hover:bg-sandstone-50 font-semibold"
+                className="px-4 py-2 rounded-xl border border-white/[0.12] hover:bg-white/[0.06] text-charcoal-300 font-semibold"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-5 py-2 rounded-xl bg-sandstone-700 hover:bg-sandstone-800 text-ivory-50 font-semibold shadow-sm"
+                className="btn-gold px-5 py-2 rounded-xl font-semibold shadow-sm"
               >
                 Save Slot
               </button>
@@ -229,24 +230,24 @@ export default function AdminSlotsPage() {
       )}
 
       {/* Slots List */}
-      <div className="bg-white rounded-3xl border border-sandstone-200 overflow-hidden shadow-sm">
-        <div className="p-5 border-b border-sandstone-200 flex justify-between items-center">
-          <h3 className="font-serif text-base font-bold text-charcoal-900">
+      <div className="glass-card rounded-3xl overflow-hidden">
+        <div className="p-5 border-b border-white/[0.08] flex justify-between items-center">
+          <h3 className="font-serif text-base font-bold text-ivory-50">
             Active Slots on {formatDate(selectedDate)}
           </h3>
-          <span className="text-xs text-charcoal-500">{slots.length} configured slot(s)</span>
+          <span className="text-xs text-charcoal-400 font-light">{slots.length} configured slot(s)</span>
         </div>
 
         {isLoading ? (
           <div className="p-8 space-y-3 animate-pulse">
             {[1, 2, 3].map((n) => (
-              <div key={n} className="h-14 bg-sandstone-100 rounded-xl" />
+              <div key={n} className="h-14 bg-navy-800/60 rounded-xl" />
             ))}
           </div>
         ) : slots.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-sandstone-50 text-charcoal-600 uppercase font-semibold border-b border-sandstone-200">
+              <thead className="bg-navy-950/70 text-charcoal-300 uppercase font-semibold border-b border-white/[0.08]">
                 <tr>
                   <th className="py-3 px-4">Time Window</th>
                   <th className="py-3 px-4">Booked / Total Capacity</th>
@@ -255,28 +256,28 @@ export default function AdminSlotsPage() {
                   <th className="py-3 px-4">Classification</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-sandstone-100">
+              <tbody className="divide-y divide-white/[0.04]">
                 {slots.map((slot) => (
-                  <tr key={slot.id} className="hover:bg-sandstone-50/50">
-                    <td className="py-3.5 px-4 font-bold text-charcoal-900 flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-sandstone-600" />
-                      <span>{slot.slotTime}</span>
+                  <tr key={slot.id} className="hover:bg-white/[0.03] transition-colors">
+                    <td className="py-3.5 px-4 font-bold text-ivory-50 flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-gold-400" />
+                      <span className="font-mono text-gold-300">{slot.slotTime}</span>
                     </td>
-                    <td className="py-3.5 px-4 text-charcoal-700">
-                      <span className="font-bold text-charcoal-900">{slot.bookedVisitors}</span> / {slot.capacity}
+                    <td className="py-3.5 px-4 text-charcoal-300">
+                      <span className="font-bold text-ivory-100">{slot.bookedVisitors}</span> / {slot.capacity}
                     </td>
                     <td className="py-3.5 px-4">
-                      <span className="font-semibold text-charcoal-800">{slot.remainingCapacity} visitors</span>
+                      <span className="font-mono font-semibold text-gold-300">{slot.remainingCapacity} visitors</span>
                     </td>
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-2 w-36">
-                        <div className="flex-1 h-2 rounded-full bg-sandstone-200 overflow-hidden">
+                        <div className="flex-1 h-2 rounded-full bg-navy-950 border border-white/[0.08] overflow-hidden">
                           <div
                             className={`h-full rounded-full ${
                               slot.crowdStatus.percent < 40
                                 ? 'bg-emerald-500'
                                 : slot.crowdStatus.percent < 70
-                                ? 'bg-blue-500'
+                                ? 'bg-sky-500'
                                 : slot.crowdStatus.percent < 85
                                 ? 'bg-amber-500'
                                 : 'bg-rose-500'
@@ -284,7 +285,7 @@ export default function AdminSlotsPage() {
                             style={{ width: `${slot.crowdStatus.percent}%` }}
                           />
                         </div>
-                        <span className="font-mono text-[11px] text-charcoal-600">
+                        <span className="font-mono text-[11px] text-charcoal-400">
                           {slot.crowdStatus.percent}%
                         </span>
                       </div>
@@ -298,11 +299,11 @@ export default function AdminSlotsPage() {
             </table>
           </div>
         ) : (
-          <div className="py-12 text-center text-xs text-charcoal-500 space-y-2">
+          <div className="py-12 text-center text-xs text-charcoal-400 space-y-2 font-light">
             <p>No slots found for this monument on {formatDate(selectedDate)}.</p>
             <button
               onClick={() => setShowAddForm(true)}
-              className="text-sandstone-700 font-semibold underline"
+              className="text-gold-400 hover:text-gold-300 font-semibold underline"
             >
               Click here to create the first slot.
             </button>
@@ -312,4 +313,3 @@ export default function AdminSlotsPage() {
     </div>
   );
 }
-

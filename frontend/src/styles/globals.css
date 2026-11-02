@@ -3,8 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --background: #FCFBF8;
-  --foreground: #1C1917;
+  --background: #080D1A;
+  --foreground: #FAF8F5;
+  --card-bg: rgba(17, 26, 46, 0.7);
+  --card-border: rgba(246, 205, 85, 0.15);
+}
+
+html {
+  color-scheme: dark;
 }
 
 body {
@@ -12,22 +18,98 @@ body {
   background: var(--background);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
+  background-attachment: fixed;
 }
 
-/* Custom scrollbars */
+/* Custom modern scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #F5ECE0;
+  background: #080D1A;
 }
 ::-webkit-scrollbar-thumb {
-  background: #C99E74;
-  border-radius: 4px;
+  background: #1E293B;
+  border-radius: 9999px;
+  border: 2px solid #080D1A;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #B47B49;
+  background: #C8880D;
+}
+
+/* Glassmorphic utilities */
+.glass-panel {
+  background: rgba(12, 19, 34, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-gold {
+  background: rgba(17, 26, 46, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(246, 205, 85, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(246, 205, 85, 0.15);
+}
+
+.glass-card {
+  background: rgba(17, 26, 46, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  background: rgba(26, 38, 64, 0.75);
+  border-color: rgba(246, 205, 85, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(230, 168, 23, 0.2);
+}
+
+.glass-input {
+  background: rgba(8, 13, 26, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #FAF8F5;
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  background: rgba(12, 19, 34, 0.95);
+  border-color: #E6A817;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(230, 168, 23, 0.15);
+}
+
+/* Gold Gradient Typography */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFFDF5 0%, #FCE496 40%, #E6A817 80%, #C8880D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gold-subtle {
+  background: linear-gradient(135deg, #F5F1E9 0%, #DDD2BD 60%, #CBBBA0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Button Shimmer */
+.btn-gold {
+  background: linear-gradient(135deg, #E6A817 0%, #C8880D 100%);
+  color: #080D1A;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(230, 168, 23, 0.3);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #F6CD55 0%, #E6A817 100%);
+  box-shadow: 0 6px 22px rgba(230, 168, 23, 0.45);
+  transform: translateY(-1px);
 }
 
 /* Print Styles for Tickets */
@@ -49,4 +131,3 @@ body {
     max-width: 100% !important;
   }
 }
-

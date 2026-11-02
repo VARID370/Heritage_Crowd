@@ -17,6 +17,7 @@ import {
   AlertTriangle,
   Landmark,
   QrCode,
+  Sparkles,
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { formatINR, formatDate } from '@/lib/utils';
@@ -60,23 +61,25 @@ export default function TicketPassPage() {
   if (isLoading) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 space-y-6 animate-pulse">
-        <div className="h-8 w-40 bg-sandstone-200 rounded-lg" />
-        <div className="h-[520px] bg-sandstone-100 rounded-3xl border border-sandstone-200" />
+        <div className="h-8 w-40 bg-navy-800/80 rounded-xl" />
+        <div className="h-[520px] bg-navy-900/60 rounded-3xl border border-white/[0.06]" />
       </div>
     );
   }
 
   if (error || !ticket) {
     return (
-      <div className="max-w-md mx-auto px-4 py-20 text-center space-y-4">
-        <AlertTriangle className="w-16 h-16 text-amber-500 mx-auto" />
-        <h2 className="font-serif text-2xl font-bold text-charcoal-900">
+      <div className="max-w-md mx-auto px-4 py-24 text-center space-y-4">
+        <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center mx-auto text-amber-400 shadow-gold-glow">
+          <AlertTriangle className="w-8 h-8" />
+        </div>
+        <h2 className="font-serif text-2xl font-bold text-ivory-50">
           Ticket Not Found
         </h2>
-        <p className="text-sm text-charcoal-600">{error || 'Unable to locate ticket pass.'}</p>
+        <p className="text-sm text-charcoal-300 font-light leading-relaxed">{error || 'Unable to locate ticket pass.'}</p>
         <Link
           href="/my-bookings"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sandstone-700 text-ivory-50 text-sm font-semibold"
+          className="btn-gold inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold mt-2"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Go to My Bookings</span>
@@ -95,34 +98,34 @@ export default function TicketPassPage() {
       <div className="flex items-center justify-between no-print">
         <Link
           href="/my-bookings"
-          className="inline-flex items-center gap-2 text-sm font-medium text-charcoal-600 hover:text-charcoal-900 transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-medium text-charcoal-300 hover:text-ivory-50 transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4 text-gold-400" />
           <span>Back to My Bookings</span>
         </Link>
 
         <button
           onClick={handlePrint}
-          className="px-5 py-2.5 rounded-xl bg-sandstone-700 hover:bg-sandstone-800 text-ivory-50 text-xs font-semibold flex items-center gap-2 shadow-sm transition-all"
+          className="btn-gold px-5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 shadow-sm"
         >
-          <Printer className="w-4 h-4" />
+          <Printer className="w-4 h-4 text-navy-950" />
           <span>Print / Save as PDF</span>
         </button>
       </div>
 
       {/* Official Boarding Pass Ticket Container */}
-      <div className="ticket-container bg-white rounded-3xl border-2 border-sandstone-300 shadow-xl overflow-hidden print:shadow-none print:border-black">
+      <div className="ticket-container bg-navy-900 rounded-3xl border border-gold-500/30 shadow-2xl overflow-hidden print:shadow-none print:bg-white print:border-black print:text-black">
         {/* Ticket Header */}
-        <div className="bg-sandstone-800 text-ivory-50 p-6 sm:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 rounded-xl bg-sandstone-700 border border-gold-400/30 flex items-center justify-center text-ivory-50">
-              <Landmark className="w-6 h-6 text-gold-300" />
+        <div className="bg-navy-950 text-ivory-50 p-6 sm:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/[0.08] print:border-b-2 print:border-black">
+          <div className="flex items-center space-x-3.5">
+            <div className="w-12 h-12 rounded-xl bg-gold-500/15 border border-gold-400/30 flex items-center justify-center text-gold-400 shadow-gold-glow">
+              <Landmark className="w-6 h-6" />
             </div>
             <div>
-              <span className="font-serif text-2xl font-bold tracking-tight">
-                Heritage<span className="text-sandstone-400">Connect</span>
+              <span className="font-serif text-2xl font-bold tracking-tight text-ivory-50 print:text-black">
+                Heritage<span className="text-gold-400">Connect</span>
               </span>
-              <p className="text-[11px] text-ivory-300 font-mono tracking-wider uppercase">
+              <p className="text-[11px] text-charcoal-400 font-mono tracking-widest uppercase mt-0.5 print:text-gray-600">
                 Official Digital Admission Pass
               </p>
             </div>
@@ -131,18 +134,21 @@ export default function TicketPassPage() {
           {/* Status Badge */}
           <div>
             {isConfirmed && (
-              <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4" /> Valid Pass
+              <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 flex items-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Valid Pass</span>
               </span>
             )}
             {isCheckedIn && (
-              <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-400/40 flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4" /> Admitted / Used
+              <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-sky-500/20 text-sky-300 border border-sky-400/40 flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-sky-400" />
+                <span>Admitted / Used</span>
               </span>
             )}
             {isCancelled && (
               <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-400/40 flex items-center gap-1.5">
-                <XCircle className="w-4 h-4" /> Cancelled
+                <XCircle className="w-4 h-4 text-rose-400" />
+                <span>Cancelled</span>
               </span>
             )}
           </div>
@@ -151,82 +157,82 @@ export default function TicketPassPage() {
         {/* Ticket Body */}
         <div className="p-6 sm:p-8 space-y-6">
           {/* Monument Title & Booking Ref */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-sandstone-200 pb-5">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-white/[0.08] pb-5 print:border-gray-300">
             <div>
-              <span className="text-xs font-semibold text-sandstone-700 uppercase tracking-wider">
+              <span className="text-xs font-semibold text-gold-400 uppercase tracking-widest">
                 Monument of Visit
               </span>
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-charcoal-900 mt-0.5">
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ivory-50 mt-1 print:text-black">
                 {ticket.site?.name || 'Heritage Monument'}
               </h2>
-              <p className="text-xs text-charcoal-500 flex items-center gap-1 mt-1">
-                <MapPin className="w-3.5 h-3.5 text-sandstone-600" />
+              <p className="text-xs text-charcoal-300 flex items-center gap-1.5 mt-1 font-light print:text-gray-700">
+                <MapPin className="w-3.5 h-3.5 text-gold-400" />
                 <span>{[ticket.site?.city, ticket.site?.state].filter(Boolean).join(', ') || 'India'}</span>
               </p>
             </div>
 
-            <div className="bg-sandstone-50 border border-sandstone-200 rounded-xl p-3 text-right">
-              <span className="text-[10px] text-charcoal-400 uppercase tracking-wider font-semibold block">
+            <div className="bg-navy-950 border border-white/[0.1] rounded-2xl p-3.5 text-right print:border-gray-300 print:bg-gray-50">
+              <span className="text-[10px] text-charcoal-400 uppercase tracking-widest font-semibold block">
                 Booking Reference
               </span>
-              <span className="font-mono text-base font-bold text-charcoal-900">
+              <span className="font-mono text-base font-bold text-gold-300 print:text-black">
                 {ticket.bookingReference}
               </span>
             </div>
           </div>
 
           {/* Grid of Key Info */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-2 border-b border-sandstone-200 text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-2 border-b border-white/[0.08] text-xs print:border-gray-300">
             <div>
-              <span className="text-charcoal-400 uppercase font-semibold text-[10px] block">Visit Date</span>
-              <span className="font-bold text-charcoal-900 text-sm mt-0.5 block">
+              <span className="text-charcoal-400 uppercase font-semibold text-[10px] tracking-wider block">Visit Date</span>
+              <span className="font-bold text-ivory-100 text-sm mt-0.5 block print:text-black">
                 {formatDate(ticket.date)}
               </span>
             </div>
 
             <div>
-              <span className="text-charcoal-400 uppercase font-semibold text-[10px] block">Time Slot</span>
-              <span className="font-bold text-charcoal-900 text-sm mt-0.5 block">
+              <span className="text-charcoal-400 uppercase font-semibold text-[10px] tracking-wider block">Time Slot</span>
+              <span className="font-mono font-bold text-gold-300 text-sm mt-0.5 block print:text-black">
                 {ticket.slotTime}
               </span>
             </div>
 
             <div>
-              <span className="text-charcoal-400 uppercase font-semibold text-[10px] block">Visitors</span>
-              <span className="font-bold text-charcoal-900 text-sm mt-0.5 block">
+              <span className="text-charcoal-400 uppercase font-semibold text-[10px] tracking-wider block">Visitors</span>
+              <span className="font-bold text-ivory-100 text-sm mt-0.5 block print:text-black">
                 {ticket.visitorCount} Person(s)
               </span>
             </div>
 
             <div>
-              <span className="text-charcoal-400 uppercase font-semibold text-[10px] block">Amount Paid</span>
-              <span className="font-bold text-charcoal-900 text-sm mt-0.5 block text-emerald-800">
+              <span className="text-charcoal-400 uppercase font-semibold text-[10px] tracking-wider block">Amount Paid</span>
+              <span className="font-bold text-emerald-300 text-sm mt-0.5 block print:text-black">
                 {formatINR(ticket.totalPrice)}
               </span>
             </div>
           </div>
 
           {/* Visitor Details */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs py-1 border-b border-sandstone-200">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs py-1 border-b border-white/[0.08] print:border-gray-300">
             <div>
-              <span className="text-charcoal-400 uppercase font-semibold text-[10px] block">Primary Visitor</span>
-              <span className="font-semibold text-charcoal-900 text-sm mt-0.5 block">
+              <span className="text-charcoal-400 uppercase font-semibold text-[10px] tracking-wider block">Primary Visitor</span>
+              <span className="font-semibold text-ivory-100 text-sm mt-0.5 block print:text-black">
                 {ticket.visitorName}
               </span>
             </div>
 
             <div>
-              <span className="text-charcoal-400 uppercase font-semibold text-[10px] block">Contact Email</span>
-              <span className="font-medium text-charcoal-800 text-sm mt-0.5 block">
+              <span className="text-charcoal-400 uppercase font-semibold text-[10px] tracking-wider block">Contact Email</span>
+              <span className="font-medium text-charcoal-200 text-sm mt-0.5 block print:text-black">
                 {ticket.visitorEmail}
               </span>
             </div>
           </div>
 
           {/* QR Code and Gate Verification Instructions */}
-          <div className="pt-2 flex flex-col sm:flex-row items-center gap-6 bg-sandstone-50/70 p-6 rounded-2xl border border-sandstone-200">
+          <div className="pt-2 flex flex-col sm:flex-row items-center gap-6 bg-navy-950/80 p-6 rounded-2xl border border-white/[0.08] print:bg-white print:border-gray-300">
             {/* QR Code Display */}
-            <div className="flex-shrink-0 bg-white p-3 rounded-2xl border border-sandstone-300 shadow-sm text-center">
+            <div className="flex-shrink-0 bg-white p-3.5 rounded-2xl border border-gold-400/40 shadow-lg text-center">
               {ticket.qrCodeDataUrl ? (
                 <Image
                   src={ticket.qrCodeDataUrl}
@@ -236,29 +242,29 @@ export default function TicketPassPage() {
                   className="mx-auto"
                 />
               ) : (
-                <div className="w-44 h-44 flex items-center justify-center bg-sandstone-100 rounded-xl">
-                  <QrCode className="w-16 h-16 text-sandstone-400" />
+                <div className="w-44 h-44 flex items-center justify-center bg-gray-100 rounded-xl">
+                  <QrCode className="w-16 h-16 text-gray-500" />
                 </div>
               )}
-              <span className="block mt-2 font-mono text-[10px] text-charcoal-500">
+              <span className="block mt-2 font-mono text-[10px] font-bold text-navy-950">
                 {ticket.bookingReference}
               </span>
             </div>
 
             {/* Verification Instructions */}
-            <div className="space-y-3 text-xs text-charcoal-700">
-              <h4 className="font-serif text-sm font-bold text-charcoal-900 flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-emerald-700" />
+            <div className="space-y-3 text-xs text-charcoal-300 print:text-gray-700">
+              <h4 className="font-serif text-sm font-bold text-ivory-100 flex items-center gap-1.5 print:text-black">
+                <ShieldCheck className="w-4 h-4 text-gold-400" />
                 <span>Monument Entry Verification Instructions</span>
               </h4>
-              <ul className="space-y-1.5 text-xs text-charcoal-600 list-disc list-inside">
+              <ul className="space-y-1.5 text-xs text-charcoal-300 list-disc list-inside font-light print:text-gray-600">
                 <li>Present this digital or printed pass at the monument turnstile or security gate.</li>
                 <li>Each pass permits one-time entry during the designated slot window.</li>
                 <li>Primary visitor must present a valid government photo identity card.</li>
                 <li>Non-transferable pass. Strictly adheres to ASI conservation guidelines.</li>
               </ul>
               {isCheckedIn && ticket.checkedInAt && (
-                <p className="text-xs text-blue-800 font-semibold bg-blue-50 p-2 rounded-lg border border-blue-200">
+                <p className="text-xs text-sky-300 font-semibold bg-sky-500/15 p-2 rounded-lg border border-sky-500/30">
                   Admitted at gate on: {new Date(ticket.checkedInAt).toLocaleString('en-IN')}
                 </p>
               )}
@@ -267,11 +273,10 @@ export default function TicketPassPage() {
         </div>
 
         {/* Ticket Footer */}
-        <div className="bg-sandstone-100 px-6 py-3 border-t border-sandstone-200 text-center text-[10px] text-charcoal-500">
+        <div className="bg-navy-950 px-6 py-3 border-t border-white/[0.08] text-center text-[10px] text-charcoal-400 font-mono tracking-wider print:border-gray-300 print:text-gray-600">
           HeritageConnect Integrated Digital Ticketing • Government & ASI Certified System • Keep pass safe
         </div>
       </div>
     </div>
   );
 }
-

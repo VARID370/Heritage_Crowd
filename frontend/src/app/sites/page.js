@@ -4,13 +4,13 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {
   Search,
-  Filter,
   MapPin,
   Compass,
   RefreshCw,
   AlertCircle,
   Ticket,
   SlidersHorizontal,
+  Sparkles,
 } from 'lucide-react';
 import SiteCard from '@/components/SiteCard';
 import { api } from '@/lib/api';
@@ -88,7 +88,7 @@ export default function SitesDirectoryPage() {
     }
   }, [query, city, state, category, bookableOnly]);
 
-  // Debounced search on input changes (500ms delay to prevent rapid-fire requests on every keystroke)
+  // Debounced search on input changes (450ms delay)
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchSites();
@@ -114,51 +114,55 @@ export default function SitesDirectoryPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       {/* Header */}
-      <div className="border-b border-sandstone-200 pb-6">
-        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-charcoal-900">
+      <div className="border-b border-white/[0.08] pb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/25 text-gold-300 text-xs font-semibold uppercase tracking-wider mb-3">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Geospatial Directory</span>
+        </div>
+        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-ivory-50">
           Heritage Discovery Directory
         </h1>
-        <p className="mt-2 text-sm text-charcoal-600 max-w-3xl">
-          Search, explore, and book official passes across real Indian historic landmarks. Dynamic data is fetched directly via OpenStreetMap with verified booking configurations.
+        <p className="mt-2 text-sm text-charcoal-300 max-w-3xl font-light">
+          Search, explore, and reserve passes across authentic Indian historical landmarks. Dynamic data is fetched directly via OpenStreetMap with verified ticketing configurations.
         </p>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-5 rounded-2xl border border-sandstone-200 shadow-sm space-y-4">
+      <div className="glass-panel p-5 sm:p-6 rounded-2xl border border-white/[0.08] shadow-glass-card space-y-4">
         <form onSubmit={handleApplyFilter} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3">
           {/* Keyword Search */}
-          <div className="lg:col-span-4 flex items-center px-3.5 py-2.5 bg-ivory-50 rounded-xl border border-sandstone-300 focus-within:border-sandstone-600">
-            <Search className="w-4 h-4 text-sandstone-600 mr-2 flex-shrink-0" />
+          <div className="lg:col-span-4 flex items-center px-3.5 py-2.5 bg-navy-950/70 rounded-xl border border-white/[0.1] focus-within:border-gold-500/50 transition-colors">
+            <Search className="w-4 h-4 text-gold-400 mr-2.5 flex-shrink-0" />
             <input
               type="text"
               placeholder="Monument or fort name..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full bg-transparent text-sm focus:outline-none"
+              className="w-full bg-transparent text-sm focus:outline-none text-ivory-50 placeholder-charcoal-400 font-medium"
             />
           </div>
 
           {/* City */}
-          <div className="lg:col-span-3 flex items-center px-3.5 py-2.5 bg-ivory-50 rounded-xl border border-sandstone-300 focus-within:border-sandstone-600">
-            <MapPin className="w-4 h-4 text-sandstone-600 mr-2 flex-shrink-0" />
+          <div className="lg:col-span-3 flex items-center px-3.5 py-2.5 bg-navy-950/70 rounded-xl border border-white/[0.1] focus-within:border-gold-500/50 transition-colors">
+            <MapPin className="w-4 h-4 text-gold-400 mr-2 flex-shrink-0" />
             <input
               type="text"
               placeholder="City (e.g. Agra, Jaipur)"
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              className="w-full bg-transparent text-sm focus:outline-none"
+              className="w-full bg-transparent text-sm focus:outline-none text-ivory-50 placeholder-charcoal-400 font-medium"
             />
           </div>
 
           {/* State */}
-          <div className="lg:col-span-3 flex items-center px-3.5 py-2.5 bg-ivory-50 rounded-xl border border-sandstone-300 focus-within:border-sandstone-600">
-            <MapPin className="w-4 h-4 text-sandstone-600 mr-2 flex-shrink-0" />
+          <div className="lg:col-span-3 flex items-center px-3.5 py-2.5 bg-navy-950/70 rounded-xl border border-white/[0.1] focus-within:border-gold-500/50 transition-colors">
+            <MapPin className="w-4 h-4 text-gold-400 mr-2 flex-shrink-0" />
             <input
               type="text"
               placeholder="State (e.g. Rajasthan, UP)"
               value={state}
               onChange={(e) => setState(e.target.value)}
-              className="w-full bg-transparent text-sm focus:outline-none"
+              className="w-full bg-transparent text-sm focus:outline-none text-ivory-50 placeholder-charcoal-400 font-medium"
             />
           </div>
 
@@ -166,15 +170,15 @@ export default function SitesDirectoryPage() {
           <div className="lg:col-span-2 flex items-center gap-2">
             <button
               type="submit"
-              className="w-full py-2.5 px-4 bg-sandstone-700 hover:bg-sandstone-800 text-ivory-50 rounded-xl text-sm font-semibold shadow-sm transition-colors"
+              className="btn-gold w-full py-2.5 px-4 rounded-xl text-sm font-semibold flex items-center justify-center gap-1.5"
             >
-              Search
+              <span>Search</span>
             </button>
             <button
               type="button"
               onClick={handleResetFilters}
               title="Reset Filters"
-              className="p-2.5 rounded-xl border border-sandstone-300 hover:bg-sandstone-50 text-charcoal-600"
+              className="p-2.5 rounded-xl border border-white/[0.1] hover:border-gold-500/40 bg-navy-950/70 hover:bg-white/[0.06] text-charcoal-300 hover:text-ivory-50 transition-colors"
             >
               <RefreshCw className="w-4 h-4" />
             </button>
@@ -182,20 +186,20 @@ export default function SitesDirectoryPage() {
         </form>
 
         {/* Category Pills & Bookable Toggle */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-3 border-t border-sandstone-100">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-4 border-t border-white/[0.08]">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold text-charcoal-500 mr-1 flex items-center gap-1">
-              <SlidersHorizontal className="w-3.5 h-3.5" /> Category:
+            <span className="text-xs font-semibold text-charcoal-400 mr-1 flex items-center gap-1">
+              <SlidersHorizontal className="w-3.5 h-3.5 text-gold-400" /> Category:
             </span>
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
                 onClick={() => setCategory(cat.id)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                   category === cat.id
-                    ? 'bg-sandstone-700 text-ivory-50 shadow-sm'
-                    : 'bg-sandstone-100 text-charcoal-700 hover:bg-sandstone-200'
+                    ? 'bg-gold-500/20 text-gold-300 border border-gold-400/40 shadow-gold-glow font-semibold'
+                    : 'bg-navy-950/60 text-charcoal-300 hover:text-ivory-50 hover:bg-white/[0.06] border border-white/[0.08]'
                 }`}
               >
                 {cat.label}
@@ -211,44 +215,47 @@ export default function SitesDirectoryPage() {
               onChange={(e) => setBookableOnly(e.target.checked)}
               className="sr-only peer"
             />
-            <div className="w-9 h-5 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600 relative"></div>
-            <span className="ml-2.5 text-xs font-semibold text-charcoal-800 flex items-center gap-1">
-              <Ticket className="w-3.5 h-3.5 text-emerald-600" /> Bookable Only
+            <div className="w-9 h-5 bg-navy-950 border border-white/[0.15] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-charcoal-400 peer-checked:after:bg-navy-950 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gold-400 peer-checked:border-gold-400 relative"></div>
+            <span className="ml-2.5 text-xs font-semibold text-ivory-100 flex items-center gap-1.5">
+              <Ticket className="w-3.5 h-3.5 text-gold-400" /> Bookable Passes Only
             </span>
           </label>
         </div>
       </div>
 
-      {/* Results Header */}
-      <div className="flex items-center justify-between text-xs text-charcoal-500">
+      {/* Results Header Status */}
+      <div className="flex items-center justify-between text-xs text-charcoal-400">
         <p>
           {isLoading ? (
-            <span className="flex items-center gap-1.5 text-sandstone-700 font-medium">
+            <span className="flex items-center gap-2 text-gold-300 font-medium">
               <RefreshCw className="w-3.5 h-3.5 animate-spin" />
               Discovering heritage landmarks via OpenStreetMap...
             </span>
           ) : error && sites.length === 0 ? (
-            <span className="text-rose-600 font-medium">Discovery request failed</span>
+            <span className="text-rose-400 font-medium">Discovery request failed</span>
           ) : (
             <>
-              Showing <span className="font-bold text-charcoal-900">{sites.length}</span> discovered sites
+              Showing <span className="font-bold text-ivory-100">{sites.length}</span> discovered sites
               {isFromCache && ' (Fast cached response)'}
             </>
           )}
         </p>
-        <span className="text-sandstone-700">OpenStreetMap ODbL Verified</span>
+        <span className="text-charcoal-400 flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <span>OpenStreetMap ODbL Verified</span>
+        </span>
       </div>
 
       {/* Error state: only show when there are NO sites displayed */}
       {error && sites.length === 0 && (
-        <div className="p-4 rounded-xl border border-rose-200 bg-rose-50 text-rose-800 flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-rose-600 flex-shrink-0 mt-0.5" />
+        <div className="p-4 rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-300 flex items-start gap-3 backdrop-blur-md">
+          <AlertCircle className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5" />
           <div className="flex-1">
-            <h4 className="text-sm font-bold">External Discovery Service Notice</h4>
-            <p className="text-xs mt-1">{error}</p>
+            <h4 className="text-sm font-bold text-rose-200">External Discovery Service Notice</h4>
+            <p className="text-xs mt-1 text-rose-300/90 leading-relaxed">{error}</p>
             <button
               onClick={() => fetchSites()}
-              className="mt-2 px-3 py-1 rounded-md bg-rose-200 hover:bg-rose-300 text-rose-900 text-xs font-semibold transition-colors"
+              className="mt-3 px-3.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-200 text-xs font-semibold transition-colors"
             >
               Retry Discovery
             </button>
@@ -258,23 +265,21 @@ export default function SitesDirectoryPage() {
 
       {/* Loading Skeletons */}
       {isLoading ? (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div
-                key={i}
-                className="h-96 rounded-2xl bg-sandstone-100 animate-pulse border border-sandstone-200 flex flex-col justify-between p-5"
-              >
-                <div className="h-44 w-full bg-sandstone-200/70 rounded-xl" />
-                <div className="space-y-2 pt-2">
-                  <div className="h-5 w-3/4 bg-sandstone-200/70 rounded" />
-                  <div className="h-3 w-full bg-sandstone-200/50 rounded" />
-                  <div className="h-3 w-2/3 bg-sandstone-200/50 rounded" />
-                </div>
-                <div className="h-10 w-full bg-sandstone-200/70 rounded-xl mt-3" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div
+              key={i}
+              className="h-96 rounded-2xl bg-navy-900/60 animate-pulse border border-white/[0.06] flex flex-col justify-between p-5"
+            >
+              <div className="h-44 w-full bg-navy-800/60 rounded-xl" />
+              <div className="space-y-2 pt-2">
+                <div className="h-5 w-3/4 bg-navy-800/80 rounded" />
+                <div className="h-3 w-full bg-navy-800/50 rounded" />
+                <div className="h-3 w-2/3 bg-navy-800/50 rounded" />
               </div>
-            ))}
-          </div>
+              <div className="h-10 w-full bg-navy-800/70 rounded-xl mt-3" />
+            </div>
+          ))}
         </div>
       ) : sites.length > 0 ? (
         /* Results Grid */
@@ -284,18 +289,18 @@ export default function SitesDirectoryPage() {
           ))}
         </div>
       ) : !error ? (
-        /* Empty State (Only when search completed without error and 0 matches) */
-        <div className="text-center py-16 bg-white rounded-3xl border border-sandstone-200 p-8 space-y-4">
-          <Compass className="w-16 h-16 text-sandstone-300 mx-auto" />
-          <h3 className="font-serif text-xl font-bold text-charcoal-900">
+        /* Empty State */
+        <div className="text-center py-20 glass-card rounded-3xl p-8 space-y-4">
+          <Compass className="w-16 h-16 text-gold-400 mx-auto opacity-75" />
+          <h3 className="font-serif text-xl font-bold text-ivory-100">
             No heritage monuments found
           </h3>
-          <p className="text-sm text-charcoal-500 max-w-md mx-auto">
-            No monuments matched your search query. Try broadening your criteria, searching by monument name (e.g. &ldquo;Hawa Mahal&rdquo; or &ldquo;Red Fort&rdquo;), or clearing filters.
+          <p className="text-sm text-charcoal-300 max-w-md mx-auto font-light leading-relaxed">
+            No monuments matched your current search filters. Try broadening your criteria, searching by monument name (e.g. &ldquo;Hawa Mahal&rdquo; or &ldquo;Red Fort&rdquo;), or clearing filters.
           </p>
           <button
             onClick={handleResetFilters}
-            className="px-5 py-2.5 rounded-xl bg-sandstone-700 hover:bg-sandstone-800 text-ivory-50 text-sm font-semibold transition-colors"
+            className="btn-gold px-6 py-2.5 rounded-xl text-sm font-semibold"
           >
             Clear All Filters
           </button>
@@ -304,4 +309,3 @@ export default function SitesDirectoryPage() {
     </div>
   );
 }
-

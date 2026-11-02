@@ -13,6 +13,7 @@ import {
   RefreshCw,
   Landmark,
   User,
+  Sparkles,
 } from 'lucide-react';
 import { api } from '@/lib/api';
 
@@ -138,10 +139,14 @@ export default function GateVerificationPage() {
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Title */}
       <div>
-        <h1 className="font-serif text-2xl sm:text-3xl font-bold text-charcoal-900">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/25 text-gold-300 text-xs font-semibold uppercase tracking-wider mb-2">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Real-Time Turnstile Verification</span>
+        </div>
+        <h1 className="font-serif text-2xl sm:text-3xl font-bold text-ivory-50">
           Gate Ticket Verification & Admission
         </h1>
-        <p className="mt-1 text-xs sm:text-sm text-charcoal-600">
+        <p className="mt-1 text-xs sm:text-sm text-charcoal-300 font-light">
           Scan the visitor&apos;s digital ticket pass or enter their booking reference for one-time admission verification.
         </p>
       </div>
@@ -149,35 +154,35 @@ export default function GateVerificationPage() {
       {/* Main Verification Panels */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* QR Scanner Panel */}
-        <div className="bg-white p-6 rounded-3xl border border-sandstone-200 shadow-sm space-y-4">
+        <div className="glass-card p-6 rounded-3xl space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-serif text-base font-bold text-charcoal-900 flex items-center gap-2">
-              <Camera className="w-5 h-5 text-sandstone-700" />
+            <h3 className="font-serif text-base font-bold text-ivory-50 flex items-center gap-2">
+              <Camera className="w-5 h-5 text-gold-400" />
               <span>Camera QR Scanner</span>
             </h3>
             {scannerActive && (
-              <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+              <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                 Live Camera
               </span>
             )}
           </div>
 
-          <p className="text-xs text-charcoal-500">
+          <p className="text-xs text-charcoal-300 font-light">
             Use device webcam or mobile camera to scan ticket pass QR codes at monument gates.
           </p>
 
           {/* Scanner Container */}
-          <div className="overflow-hidden rounded-2xl bg-charcoal-900 min-h-[260px] flex flex-col items-center justify-center p-2 text-white relative">
+          <div className="overflow-hidden rounded-2xl bg-navy-950 border border-white/[0.08] min-h-[260px] flex flex-col items-center justify-center p-2 text-white relative">
             <div id="qr-reader-container" className="w-full h-full" />
             {!scannerActive && (
               <div className="text-center p-6 space-y-3">
-                <QrCode className="w-16 h-16 text-sandstone-300 mx-auto opacity-70" />
-                <p className="text-xs text-ivory-200">Camera scanner is currently standby.</p>
+                <QrCode className="w-16 h-16 text-gold-400 mx-auto opacity-70" />
+                <p className="text-xs text-charcoal-300 font-light">Camera scanner is currently standby.</p>
                 <button
                   type="button"
                   onClick={handleStartScanner}
-                  className="px-5 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-600 text-charcoal-900 font-bold text-xs shadow-md transition-all"
+                  className="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold shadow-md cursor-pointer"
                 >
                   Start Camera Scanner
                 </button>
@@ -189,32 +194,32 @@ export default function GateVerificationPage() {
             <button
               type="button"
               onClick={handleStopScanner}
-              className="w-full py-2.5 rounded-xl border border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-colors"
+              className="w-full py-2.5 rounded-xl border border-rose-500/30 bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 text-xs font-bold transition-colors"
             >
               Stop Camera Scanner
             </button>
           )}
 
           {scannerError && (
-            <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800">
+            <div className="p-3 bg-amber-500/15 border border-amber-500/30 rounded-xl text-xs text-amber-300">
               {scannerError}
             </div>
           )}
         </div>
 
         {/* Manual Fallback Entry Panel */}
-        <div className="bg-white p-6 rounded-3xl border border-sandstone-200 shadow-sm space-y-4">
-          <h3 className="font-serif text-base font-bold text-charcoal-900 flex items-center gap-2">
-            <Search className="w-5 h-5 text-sandstone-700" />
+        <div className="glass-card p-6 rounded-3xl space-y-4">
+          <h3 className="font-serif text-base font-bold text-ivory-50 flex items-center gap-2">
+            <Search className="w-5 h-5 text-gold-400" />
             <span>Manual Reference Fallback</span>
           </h3>
-          <p className="text-xs text-charcoal-500">
+          <p className="text-xs text-charcoal-300 font-light">
             If the visitor&apos;s screen is unreadable or camera is unavailable, enter the Booking Reference directly.
           </p>
 
           <form onSubmit={handleManualSubmit} className="space-y-4 pt-2">
             <div>
-              <label className="block text-xs font-semibold text-charcoal-700 mb-1">
+              <label className="block text-xs font-semibold text-charcoal-300 mb-1.5 uppercase tracking-wider">
                 Booking Reference Code
               </label>
               <input
@@ -223,28 +228,28 @@ export default function GateVerificationPage() {
                 placeholder="e.g. HC-20261029-XXXX"
                 value={manualReference}
                 onChange={(e) => setManualReference(e.target.value)}
-                className="w-full font-mono uppercase px-4 py-3 rounded-xl border border-sandstone-300 bg-ivory-50 text-sm font-bold text-charcoal-900 focus:outline-none focus:border-sandstone-600"
+                className="w-full font-mono uppercase px-4 py-3 rounded-xl border border-white/[0.1] bg-navy-950/70 text-sm font-bold text-gold-300 focus:outline-none focus:border-gold-500/50"
               />
             </div>
 
             <button
               type="submit"
               disabled={isVerifying || !manualReference.trim()}
-              className="w-full py-3 px-4 rounded-xl bg-sandstone-700 hover:bg-sandstone-800 disabled:opacity-50 text-ivory-50 text-xs font-semibold shadow-sm transition-all flex items-center justify-center gap-2"
+              className="btn-gold w-full py-3 px-4 rounded-xl disabled:opacity-50 text-xs font-semibold shadow-sm flex items-center justify-center gap-2 cursor-pointer"
             >
               {isVerifying ? (
                 <span>Checking Database...</span>
               ) : (
                 <>
-                  <ShieldCheck className="w-4 h-4" />
+                  <ShieldCheck className="w-4 h-4 text-navy-950" />
                   <span>Verify & Admit Visitor</span>
                 </>
               )}
             </button>
           </form>
 
-          <div className="p-4 rounded-2xl bg-sandstone-50 border border-sandstone-200 text-[11px] text-charcoal-600 space-y-1">
-            <p className="font-semibold text-charcoal-800">Gate Verification Protocol:</p>
+          <div className="p-4 rounded-2xl bg-navy-950/70 border border-white/[0.08] text-[11px] text-charcoal-300 space-y-1 font-light">
+            <p className="font-semibold text-ivory-100">Gate Verification Protocol:</p>
             <p>1. Check that primary visitor name matches valid photo ID.</p>
             <p>2. Verify total admitted visitor count matches pass.</p>
             <p>3. Successful admission permanently records turnstile entry.</p>
@@ -255,35 +260,35 @@ export default function GateVerificationPage() {
       {/* Verification Result Banner */}
       {verificationResult && (
         <div
-          className={`p-6 sm:p-8 rounded-3xl border-2 shadow-lg animate-in fade-in slide-in-from-bottom-2 ${
+          className={`p-6 sm:p-8 rounded-3xl border-2 shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-bottom-2 ${
             verificationResult.outcome === 'valid'
-              ? 'bg-emerald-50 border-emerald-500 text-emerald-950'
+              ? 'bg-emerald-500/15 border-emerald-500/50 text-emerald-100 shadow-[0_0_25px_rgba(16,185,129,0.25)]'
               : verificationResult.outcome === 'already_used'
-              ? 'bg-blue-50 border-blue-500 text-blue-950'
+              ? 'bg-sky-500/15 border-sky-500/50 text-sky-100'
               : verificationResult.outcome === 'not_yet_valid'
-              ? 'bg-amber-50 border-amber-500 text-amber-950'
-              : 'bg-rose-50 border-rose-500 text-rose-950'
+              ? 'bg-amber-500/15 border-amber-500/50 text-amber-100'
+              : 'bg-rose-500/15 border-rose-500/50 text-rose-100'
           }`}
         >
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
               {verificationResult.outcome === 'valid' && (
-                <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500 text-navy-950 flex items-center justify-center shadow-lg font-bold">
                   <CheckCircle2 className="w-7 h-7" />
                 </div>
               )}
               {verificationResult.outcome === 'already_used' && (
-                <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-sky-500 text-navy-950 flex items-center justify-center shadow-lg font-bold">
                   <Clock className="w-7 h-7" />
                 </div>
               )}
               {verificationResult.outcome === 'not_yet_valid' && (
-                <div className="w-12 h-12 rounded-2xl bg-amber-600 text-white flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-amber-500 text-navy-950 flex items-center justify-center shadow-lg font-bold">
                   <AlertCircle className="w-7 h-7" />
                 </div>
               )}
               {(verificationResult.outcome === 'cancelled' || verificationResult.outcome === 'invalid') && (
-                <div className="w-12 h-12 rounded-2xl bg-rose-600 text-white flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center shadow-lg font-bold">
                   <XCircle className="w-7 h-7" />
                 </div>
               )}
@@ -291,7 +296,7 @@ export default function GateVerificationPage() {
 
             <div className="space-y-2 flex-1">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="font-mono text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-white/80 border">
+                <span className="font-mono text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-navy-950/80 border border-white/20">
                   Outcome: {verificationResult.outcome.toUpperCase()}
                 </span>
                 <span className="text-xs font-semibold opacity-70">
@@ -304,25 +309,25 @@ export default function GateVerificationPage() {
               </h2>
 
               {verificationResult.data && (
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-black/10 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-white/10 text-xs">
                   {verificationResult.data.visitorName && (
                     <div>
                       <span className="opacity-70 block font-semibold">Visitor Name</span>
-                      <span className="font-bold text-sm">{verificationResult.data.visitorName}</span>
+                      <span className="font-bold text-sm text-ivory-50">{verificationResult.data.visitorName}</span>
                     </div>
                   )}
 
                   {verificationResult.data.visitorCount && (
                     <div>
                       <span className="opacity-70 block font-semibold">Visitors Admitted</span>
-                      <span className="font-bold text-sm">{verificationResult.data.visitorCount} Person(s)</span>
+                      <span className="font-bold text-sm text-ivory-50">{verificationResult.data.visitorCount} Person(s)</span>
                     </div>
                   )}
 
                   {verificationResult.data.slotTime && (
                     <div>
                       <span className="opacity-70 block font-semibold">Slot Window</span>
-                      <span className="font-bold text-sm">{verificationResult.data.slotTime}</span>
+                      <span className="font-bold text-sm font-mono text-gold-300">{verificationResult.data.slotTime}</span>
                     </div>
                   )}
                 </div>
@@ -333,14 +338,14 @@ export default function GateVerificationPage() {
       )}
 
       {/* Live Verification Log Table */}
-      <div className="bg-white p-6 rounded-3xl border border-sandstone-200 shadow-sm space-y-4">
+      <div className="glass-card p-6 sm:p-7 rounded-3xl space-y-4">
         <div className="flex justify-between items-center">
-          <h3 className="font-serif text-lg font-bold text-charcoal-900">
+          <h3 className="font-serif text-lg font-bold text-ivory-50">
             Recent Gate Verification Audit Trail
           </h3>
           <button
             onClick={fetchLogs}
-            className="p-2 rounded-lg border border-sandstone-200 hover:bg-sandstone-50 text-charcoal-600"
+            className="p-2 rounded-xl border border-white/[0.1] hover:border-gold-500/40 bg-navy-950/70 hover:bg-white/[0.05] text-charcoal-300 hover:text-ivory-50 transition-colors"
             title="Refresh Log"
           >
             <RefreshCw className="w-3.5 h-3.5" />
@@ -350,7 +355,7 @@ export default function GateVerificationPage() {
         {recentLogs.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-sandstone-50 text-charcoal-600 uppercase font-semibold border-b border-sandstone-200">
+              <thead className="bg-navy-950/70 text-charcoal-300 uppercase font-semibold border-b border-white/[0.08]">
                 <tr>
                   <th className="py-2.5 px-3">Time</th>
                   <th className="py-2.5 px-3">Reference</th>
@@ -360,17 +365,17 @@ export default function GateVerificationPage() {
                   <th className="py-2.5 px-3">Details</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-sandstone-100">
+              <tbody className="divide-y divide-white/[0.04]">
                 {recentLogs.map((log) => (
-                  <tr key={log._id} className="hover:bg-sandstone-50/50">
-                    <td className="py-2.5 px-3 font-mono text-[11px] text-charcoal-500 whitespace-nowrap">
+                  <tr key={log._id} className="hover:bg-white/[0.03] transition-colors">
+                    <td className="py-2.5 px-3 font-mono text-[11px] text-charcoal-400 whitespace-nowrap">
                       {new Date(log.verifiedAt).toLocaleTimeString()}
                     </td>
-                    <td className="py-2.5 px-3 font-mono font-bold text-charcoal-900">
+                    <td className="py-2.5 px-3 font-mono font-bold text-gold-300">
                       {log.bookingReference}
                     </td>
                     <td className="py-2.5 px-3">
-                      <span className="px-2 py-0.5 rounded bg-sandstone-100 text-[10px] font-semibold uppercase">
+                      <span className="px-2 py-0.5 rounded bg-navy-950 text-[10px] font-semibold uppercase text-charcoal-300 border border-white/[0.08]">
                         {log.method}
                       </span>
                     </td>
@@ -378,19 +383,19 @@ export default function GateVerificationPage() {
                       <span
                         className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
                           log.outcome === 'valid'
-                            ? 'bg-emerald-100 text-emerald-800'
+                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                             : log.outcome === 'already_used'
-                            ? 'bg-blue-100 text-blue-800'
-                            : 'bg-rose-100 text-rose-800'
+                            ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+                            : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
                         }`}
                       >
                         {log.outcome}
                       </span>
                     </td>
-                    <td className="py-2.5 px-3 text-charcoal-700">
+                    <td className="py-2.5 px-3 text-ivory-100">
                       {log.verifiedByName || 'Staff Officer'}
                     </td>
-                    <td className="py-2.5 px-3 text-charcoal-500 text-[11px] truncate max-w-xs">
+                    <td className="py-2.5 px-3 text-charcoal-400 text-[11px] truncate max-w-xs font-light">
                       {log.notes || '-'}
                     </td>
                   </tr>
@@ -399,7 +404,7 @@ export default function GateVerificationPage() {
             </table>
           </div>
         ) : (
-          <p className="text-xs text-charcoal-400 text-center py-6">
+          <p className="text-xs text-charcoal-400 text-center py-6 font-light">
             No gate verification records logged yet.
           </p>
         )}
@@ -407,4 +412,3 @@ export default function GateVerificationPage() {
     </div>
   );
 }
-

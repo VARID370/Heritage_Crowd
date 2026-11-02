@@ -50,34 +50,33 @@ export function getCrowdBadge(level) {
   switch (level?.toLowerCase()) {
     case 'low':
       return {
-        bg: 'bg-emerald-100 text-emerald-800 border-emerald-300',
-        dot: 'bg-emerald-500',
+        bg: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30 backdrop-blur-md shadow-[0_0_12px_rgba(16,185,129,0.15)]',
+        dot: 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]',
         label: 'Low Crowd',
       };
     case 'moderate':
       return {
-        bg: 'bg-blue-100 text-blue-800 border-blue-300',
-        dot: 'bg-blue-500',
+        bg: 'bg-sky-500/15 text-sky-300 border-sky-500/30 backdrop-blur-md shadow-[0_0_12px_rgba(14,165,233,0.15)]',
+        dot: 'bg-sky-400 shadow-[0_0_8px_rgba(14,165,233,0.8)]',
         label: 'Moderate Crowd',
       };
     case 'high':
       return {
-        bg: 'bg-amber-100 text-amber-800 border-amber-300',
-        dot: 'bg-amber-500',
+        bg: 'bg-amber-500/15 text-amber-300 border-amber-500/30 backdrop-blur-md shadow-[0_0_12px_rgba(245,158,11,0.15)]',
+        dot: 'bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]',
         label: 'High Crowd',
       };
     case 'peak':
       return {
-        bg: 'bg-rose-100 text-rose-800 border-rose-300',
-        dot: 'bg-rose-500',
+        bg: 'bg-rose-500/15 text-rose-300 border-rose-500/30 backdrop-blur-md shadow-[0_0_12px_rgba(244,63,94,0.15)]',
+        dot: 'bg-rose-400 shadow-[0_0_8px_rgba(244,63,94,0.8)]',
         label: 'Peak Crowd',
       };
     default:
       return {
-        bg: 'bg-stone-100 text-stone-700 border-stone-300',
-        dot: 'bg-stone-400',
-        label: 'Crowd data unavailable',
+        bg: 'bg-white/[0.06] text-charcoal-300 border-white/[0.1] backdrop-blur-md',
+        dot: 'bg-charcoal-400',
+        label: 'Crowd status',
       };
   }
 }
-

@@ -14,6 +14,7 @@ import {
   Menu,
   X,
   ChevronDown,
+  Sparkles,
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -25,48 +26,53 @@ export default function Navbar() {
   const isActive = (path) => pathname === path;
 
   return (
-    <nav className="sticky top-0 z-50 bg-ivory-50/95 backdrop-blur-md border-b border-sandstone-200 transition-all no-print">
+    <nav className="sticky top-0 z-50 bg-navy-950/85 backdrop-blur-xl border-b border-white/[0.08] transition-all no-print">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo & Brand */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-sandstone-600 to-sandstone-800 flex items-center justify-center text-ivory-50 shadow-md group-hover:scale-105 transition-transform">
-              <Landmark className="w-6 h-6 text-gold-300" />
+          <Link href="/" className="flex items-center space-x-3.5 group">
+            <div className="relative w-11 h-11 rounded-xl bg-gradient-to-br from-gold-400/20 via-gold-500/10 to-transparent border border-gold-400/30 flex items-center justify-center text-gold-400 shadow-gold-glow group-hover:scale-105 group-hover:border-gold-400/50 transition-all duration-300">
+              <Landmark className="w-5 h-5 text-gold-400 drop-shadow" />
+              <div className="absolute inset-0 rounded-xl bg-gold-400/10 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <div>
-              <span className="font-serif text-2xl font-bold tracking-tight text-charcoal-900 flex items-center">
-                Heritage<span className="text-sandstone-600">Connect</span>
+              <span className="font-serif text-2xl font-bold tracking-tight text-ivory-50 flex items-center">
+                Heritage<span className="text-gold-400">Connect</span>
               </span>
-              <span className="hidden sm:block text-[11px] font-medium uppercase tracking-wider text-charcoal-500">
-                Preservation • Ticketing • Crowd Control
+              <span className="hidden sm:flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-widest text-charcoal-400">
+                <span>Preservation</span>
+                <span className="text-gold-500/60">•</span>
+                <span>Ticketing</span>
+                <span className="text-gold-500/60">•</span>
+                <span>Crowd Control</span>
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1 lg:space-x-3">
+          <div className="hidden md:flex items-center space-x-2">
             <Link
               href="/sites"
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2 ${
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-2 border ${
                 isActive('/sites')
-                  ? 'bg-sandstone-100 text-sandstone-900 font-semibold'
-                  : 'text-charcoal-700 hover:text-charcoal-900 hover:bg-ivory-200'
+                  ? 'bg-gold-500/10 text-gold-300 border-gold-500/30 shadow-[0_0_15px_rgba(230,168,23,0.15)] font-semibold'
+                  : 'text-charcoal-300 hover:text-ivory-50 hover:bg-white/[0.05] border-transparent'
               }`}
             >
-              <Compass className="w-4 h-4 text-sandstone-600" />
+              <Compass className={`w-4 h-4 ${isActive('/sites') ? 'text-gold-400' : 'text-charcoal-400'}`} />
               <span>Explore Sites</span>
             </Link>
 
             {isAuthenticated && (
               <Link
                 href="/my-bookings"
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2 ${
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-2 border ${
                   isActive('/my-bookings')
-                    ? 'bg-sandstone-100 text-sandstone-900 font-semibold'
-                    : 'text-charcoal-700 hover:text-charcoal-900 hover:bg-ivory-200'
+                    ? 'bg-gold-500/10 text-gold-300 border-gold-500/30 shadow-[0_0_15px_rgba(230,168,23,0.15)] font-semibold'
+                    : 'text-charcoal-300 hover:text-ivory-50 hover:bg-white/[0.05] border-transparent'
                 }`}
               >
-                <Ticket className="w-4 h-4 text-sandstone-600" />
+                <Ticket className={`w-4 h-4 ${isActive('/my-bookings') ? 'text-gold-400' : 'text-charcoal-400'}`} />
                 <span>My Bookings</span>
               </Link>
             )}
@@ -74,42 +80,42 @@ export default function Navbar() {
             {isStaff && (
               <Link
                 href="/admin"
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2 border border-gold-400/40 bg-gold-50/50 ${
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-2 border ${
                   pathname.startsWith('/admin')
-                    ? 'bg-gold-100 text-gold-900 font-semibold border-gold-500'
-                    : 'text-gold-900 hover:bg-gold-100'
+                    ? 'bg-gold-500/15 text-gold-200 border-gold-400/50 shadow-gold-glow font-semibold'
+                    : 'text-gold-300/90 hover:text-gold-200 bg-gold-500/[0.07] border-gold-500/20 hover:border-gold-500/40'
                 }`}
               >
-                <ShieldCheck className="w-4 h-4 text-gold-700" />
+                <ShieldCheck className="w-4 h-4 text-gold-400" />
                 <span>Admin Portal</span>
               </Link>
             )}
           </div>
 
           {/* User Profile / Auth buttons */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-3.5">
             {isAuthenticated ? (
               <div className="relative">
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className="flex items-center space-x-2 px-3 py-2 rounded-full border border-sandstone-300 hover:border-sandstone-400 bg-white text-sm font-medium text-charcoal-800 transition-all shadow-sm"
+                  className="flex items-center space-x-2.5 px-3.5 py-2 rounded-full border border-white/[0.12] hover:border-gold-500/40 bg-navy-900/80 text-sm font-medium text-ivory-100 transition-all shadow-sm hover:shadow-[0_0_15px_rgba(230,168,23,0.15)]"
                 >
-                  <div className="w-7 h-7 rounded-full bg-sandstone-200 text-sandstone-800 flex items-center justify-center font-bold text-xs uppercase">
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-gold-600 to-gold-400 text-navy-950 flex items-center justify-center font-bold text-xs uppercase shadow">
                     {user?.name?.charAt(0) || 'U'}
                   </div>
-                  <span className="max-w-[130px] truncate">{user?.name}</span>
-                  <ChevronDown className="w-4 h-4 text-charcoal-500" />
+                  <span className="max-w-[130px] truncate text-ivory-100 text-xs sm:text-sm">{user?.name}</span>
+                  <ChevronDown className={`w-3.5 h-3.5 text-charcoal-400 transition-transform duration-200 ${userDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 {userDropdownOpen && (
                   <div
                     onMouseLeave={() => setUserDropdownOpen(false)}
-                    className="absolute right-0 mt-2 w-56 rounded-xl bg-white shadow-xl border border-sandstone-200 py-2 z-50 animate-in fade-in slide-in-from-top-2"
+                    className="absolute right-0 mt-2.5 w-60 rounded-2xl bg-navy-900/95 backdrop-blur-2xl shadow-2xl border border-white/[0.12] py-2 z-50 animate-in fade-in slide-in-from-top-2"
                   >
-                    <div className="px-4 py-2 border-b border-sandstone-100">
-                      <p className="text-xs text-charcoal-500">Signed in as</p>
-                      <p className="text-sm font-semibold text-charcoal-900 truncate">{user?.email}</p>
-                      <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-sandstone-100 text-sandstone-800">
+                    <div className="px-4 py-3 border-b border-white/[0.08]">
+                      <p className="text-[11px] uppercase tracking-wider text-charcoal-400">Signed in as</p>
+                      <p className="text-sm font-medium text-ivory-50 truncate mt-0.5">{user?.email}</p>
+                      <span className="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-gold-500/15 text-gold-300 border border-gold-500/25">
                         {user?.role}
                       </span>
                     </div>
@@ -117,9 +123,9 @@ export default function Navbar() {
                     <Link
                       href="/my-bookings"
                       onClick={() => setUserDropdownOpen(false)}
-                      className="flex items-center space-x-2 px-4 py-2.5 text-sm text-charcoal-700 hover:bg-sandstone-50"
+                      className="flex items-center space-x-2.5 px-4 py-2.5 text-sm text-charcoal-200 hover:text-ivory-50 hover:bg-white/[0.05] transition-colors"
                     >
-                      <Ticket className="w-4 h-4 text-sandstone-600" />
+                      <Ticket className="w-4 h-4 text-gold-400" />
                       <span>My Tickets & Passes</span>
                     </Link>
 
@@ -127,9 +133,9 @@ export default function Navbar() {
                       <Link
                         href="/admin"
                         onClick={() => setUserDropdownOpen(false)}
-                        className="flex items-center space-x-2 px-4 py-2.5 text-sm text-gold-800 hover:bg-gold-50"
+                        className="flex items-center space-x-2.5 px-4 py-2.5 text-sm text-gold-300 hover:text-gold-200 hover:bg-gold-500/10 transition-colors"
                       >
-                        <ShieldCheck className="w-4 h-4 text-gold-600" />
+                        <ShieldCheck className="w-4 h-4 text-gold-400" />
                         <span>Staff Dashboard</span>
                       </Link>
                     )}
@@ -139,7 +145,7 @@ export default function Navbar() {
                         setUserDropdownOpen(false);
                         logout();
                       }}
-                      className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-rose-600 hover:bg-rose-50 border-t border-sandstone-100 text-left"
+                      className="w-full flex items-center space-x-2.5 px-4 py-2.5 text-sm text-rose-400 hover:bg-rose-500/10 border-t border-white/[0.08] text-left transition-colors"
                     >
                       <LogOut className="w-4 h-4" />
                       <span>Sign Out</span>
@@ -151,15 +157,16 @@ export default function Navbar() {
               <div className="flex items-center space-x-3">
                 <Link
                   href="/login"
-                  className="px-4 py-2 text-sm font-medium text-charcoal-800 hover:text-charcoal-900 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-charcoal-300 hover:text-ivory-50 transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/register"
-                  className="px-5 py-2.5 rounded-xl bg-sandstone-700 hover:bg-sandstone-800 text-ivory-50 text-sm font-medium shadow-md transition-all hover:shadow-lg hover:-translate-y-0.5"
+                  className="btn-gold px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5"
                 >
-                  Register
+                  <Sparkles className="w-3.5 h-3.5 text-navy-950" />
+                  <span>Register</span>
                 </Link>
               </div>
             )}
@@ -169,7 +176,7 @@ export default function Navbar() {
           <div className="flex md:hidden items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-charcoal-700 hover:bg-sandstone-100 focus:outline-none"
+              className="p-2.5 rounded-xl text-charcoal-300 hover:text-ivory-50 hover:bg-white/[0.06] border border-white/[0.08] focus:outline-none"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -180,13 +187,13 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-sandstone-200 bg-ivory-100 px-4 pt-2 pb-6 space-y-3">
+        <div className="md:hidden border-b border-white/[0.08] bg-navy-900/95 backdrop-blur-2xl px-5 pt-3 pb-6 space-y-3">
           <Link
             href="/sites"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-base font-medium text-charcoal-800 hover:bg-sandstone-200"
+            className="flex items-center space-x-3 px-3.5 py-3 rounded-xl text-base font-medium text-charcoal-200 hover:text-ivory-50 hover:bg-white/[0.05]"
           >
-            <Compass className="w-5 h-5 text-sandstone-600" />
+            <Compass className="w-5 h-5 text-gold-400" />
             <span>Explore Heritage Sites</span>
           </Link>
 
@@ -194,9 +201,9 @@ export default function Navbar() {
             <Link
               href="/my-bookings"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-base font-medium text-charcoal-800 hover:bg-sandstone-200"
+              className="flex items-center space-x-3 px-3.5 py-3 rounded-xl text-base font-medium text-charcoal-200 hover:text-ivory-50 hover:bg-white/[0.05]"
             >
-              <Ticket className="w-5 h-5 text-sandstone-600" />
+              <Ticket className="w-5 h-5 text-gold-400" />
               <span>My Bookings</span>
             </Link>
           )}
@@ -205,26 +212,26 @@ export default function Navbar() {
             <Link
               href="/admin"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-base font-medium text-gold-900 bg-gold-100/70 border border-gold-300"
+              className="flex items-center space-x-3 px-3.5 py-3 rounded-xl text-base font-medium text-gold-200 bg-gold-500/10 border border-gold-500/30"
             >
-              <ShieldCheck className="w-5 h-5 text-gold-700" />
+              <ShieldCheck className="w-5 h-5 text-gold-400" />
               <span>Admin & Gate Verification</span>
             </Link>
           )}
 
-          <div className="pt-3 border-t border-sandstone-200">
+          <div className="pt-3 border-t border-white/[0.08]">
             {isAuthenticated ? (
               <div className="space-y-2">
-                <div className="px-3 py-2">
-                  <p className="text-sm font-semibold text-charcoal-900">{user?.name}</p>
-                  <p className="text-xs text-charcoal-500">{user?.email}</p>
+                <div className="px-3.5 py-2">
+                  <p className="text-sm font-semibold text-ivory-50">{user?.name}</p>
+                  <p className="text-xs text-charcoal-400 truncate">{user?.email}</p>
                 </div>
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     logout();
                   }}
-                  className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-base font-medium text-rose-600 hover:bg-rose-50"
+                  className="w-full flex items-center space-x-3 px-3.5 py-3 rounded-xl text-base font-medium text-rose-400 hover:bg-rose-500/10 text-left"
                 >
                   <LogOut className="w-5 h-5" />
                   <span>Sign Out</span>
@@ -235,14 +242,14 @@ export default function Navbar() {
                 <Link
                   href="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center py-2.5 rounded-xl border border-sandstone-300 font-medium text-charcoal-800 bg-white"
+                  className="w-full text-center py-2.5 rounded-xl border border-white/[0.12] font-medium text-ivory-100 bg-white/[0.04]"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/register"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center py-2.5 rounded-xl bg-sandstone-700 font-medium text-ivory-50 shadow-sm"
+                  className="w-full text-center py-2.5 rounded-xl btn-gold font-medium"
                 >
                   Register
                 </Link>
@@ -254,4 +261,3 @@ export default function Navbar() {
     </nav>
   );
 }
-
