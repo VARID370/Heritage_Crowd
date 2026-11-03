@@ -117,10 +117,10 @@ export default function MyBookingsPage() {
   if (authLoading || isLoading) {
     return (
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-6 animate-pulse">
-        <div className="h-10 w-48 bg-navy-800/80 rounded-xl" />
+        <div className="h-10 w-48 bg-sandstone-200 dark:bg-navy-800/80 rounded-xl" />
         <div className="space-y-4">
           {[1, 2, 3].map((n) => (
-            <div key={n} className="h-44 bg-navy-900/60 rounded-3xl border border-white/[0.06]" />
+            <div key={n} className="h-44 bg-sandstone-100 dark:bg-navy-900/60 rounded-3xl border border-sandstone-200 dark:border-white/[0.06]" />
           ))}
         </div>
       </div>
@@ -130,16 +130,16 @@ export default function MyBookingsPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/[0.08] pb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-sandstone-200 dark:border-white/[0.08] pb-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/25 text-gold-300 text-xs font-semibold uppercase tracking-wider mb-2">
-            <Sparkles className="w-3 h-3 text-gold-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/25 text-gold-600 dark:text-gold-300 text-xs font-semibold uppercase tracking-wider mb-2">
+            <Sparkles className="w-3 h-3 text-gold-500 dark:text-gold-400" />
             <span>Visitor Digital Wallet</span>
           </div>
-          <h1 className="font-serif text-3xl font-bold text-ivory-50">
+          <h1 className="font-serif text-3xl font-bold text-charcoal-900 dark:text-ivory-50">
             My Tickets & Heritage Passes
           </h1>
-          <p className="mt-1 text-sm text-charcoal-300 font-light">
+          <p className="mt-1 text-sm text-charcoal-600 dark:text-charcoal-300 font-light">
             View active bookings, access cryptographic QR passes, or manage cancellations.
           </p>
         </div>
@@ -158,21 +158,21 @@ export default function MyBookingsPage() {
         <div
           className={`p-4 rounded-2xl border text-xs sm:text-sm flex items-center gap-2.5 backdrop-blur-md ${
             actionMessage.type === 'success'
-              ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-300'
-              : 'bg-rose-500/15 border-rose-500/30 text-rose-300'
+              ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-700 dark:text-emerald-300'
+              : 'bg-rose-500/15 border-rose-500/30 text-rose-700 dark:text-rose-300'
           }`}
         >
           {actionMessage.type === 'success' ? (
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 flex-shrink-0" />
           ) : (
-            <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
+            <AlertCircle className="w-4 h-4 text-rose-500 dark:text-rose-400 flex-shrink-0" />
           )}
           <span>{actionMessage.text}</span>
         </div>
       )}
 
       {/* Filter Tabs */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-white/[0.08] pb-4">
+      <div className="flex flex-wrap items-center gap-2 border-b border-sandstone-200 dark:border-white/[0.08] pb-4">
         {[
           { id: 'all', label: `All (${bookings.length})` },
           { id: 'confirmed', label: `Confirmed (${bookings.filter((b) => b.status === 'confirmed').length})` },
@@ -185,8 +185,8 @@ export default function MyBookingsPage() {
             onClick={() => setFilterStatus(tab.id)}
             className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
               filterStatus === tab.id
-                ? 'bg-gold-500/20 text-gold-300 border border-gold-400/40 shadow-gold-glow'
-                : 'text-charcoal-300 hover:text-ivory-50 hover:bg-white/[0.05] border border-transparent'
+                ? 'bg-gold-500/20 text-gold-700 dark:text-gold-300 border border-gold-400/40 shadow-gold-glow'
+                : 'text-charcoal-600 dark:text-charcoal-300 hover:text-charcoal-900 dark:hover:text-ivory-50 hover:bg-sandstone-100 dark:hover:bg-white/[0.05] border border-transparent'
             }`}
           >
             {tab.label}
@@ -204,43 +204,43 @@ export default function MyBookingsPage() {
             >
               <div className="space-y-3 flex-1">
                 <div className="flex flex-wrap items-center gap-3">
-                  <span className="font-mono text-xs font-bold text-gold-300 bg-gold-500/10 border border-gold-500/25 px-3 py-1 rounded-lg">
+                  <span className="font-mono text-xs font-bold text-gold-700 dark:text-gold-300 bg-gold-500/10 border border-gold-500/25 px-3 py-1 rounded-lg">
                     REF: {b.bookingReference}
                   </span>
                   {getStatusBadge(b.status)}
                 </div>
 
                 <div>
-                  <h3 className="font-serif text-xl font-bold text-ivory-50">
+                  <h3 className="font-serif text-xl font-bold text-charcoal-900 dark:text-ivory-50">
                     {b.site?.name || 'Heritage Monument'}
                   </h3>
-                  <p className="text-xs text-charcoal-300 font-light mt-0.5">
+                  <p className="text-xs text-charcoal-600 dark:text-charcoal-300 font-light mt-0.5">
                     {[b.site?.city, b.site?.state].filter(Boolean).join(', ') || 'India'}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs text-charcoal-200">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs text-charcoal-700 dark:text-charcoal-200">
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-3.5 h-3.5 text-gold-400" />
+                    <Calendar className="w-3.5 h-3.5 text-gold-500 dark:text-gold-400" />
                     <span className="font-medium">{formatDate(b.date)}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Clock className="w-3.5 h-3.5 text-gold-400" />
-                    <span className="font-mono text-gold-200">{b.slotTime}</span>
+                    <Clock className="w-3.5 h-3.5 text-gold-500 dark:text-gold-400" />
+                    <span className="font-mono text-gold-700 dark:text-gold-200">{b.slotTime}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Users className="w-3.5 h-3.5 text-gold-400" />
+                    <Users className="w-3.5 h-3.5 text-gold-500 dark:text-gold-400" />
                     <span className="font-medium">{b.visitorCount} Visitor(s)</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Ticket className="w-3.5 h-3.5 text-gold-400" />
-                    <span className="font-bold text-ivory-50">{formatINR(b.totalPrice)}</span>
+                    <Ticket className="w-3.5 h-3.5 text-gold-500 dark:text-gold-400" />
+                    <span className="font-bold text-charcoal-900 dark:text-ivory-50">{formatINR(b.totalPrice)}</span>
                   </div>
                 </div>
               </div>
 
               {/* Actions */}
-              <div className="flex md:flex-col justify-end md:justify-center items-end gap-2.5 pt-4 md:pt-0 border-t md:border-t-0 border-white/[0.08] flex-shrink-0">
+              <div className="flex md:flex-col justify-end md:justify-center items-end gap-2.5 pt-4 md:pt-0 border-t md:border-t-0 border-sandstone-200 dark:border-white/[0.08] flex-shrink-0">
                 <Link
                   href={`/ticket/${b.id}`}
                   className="btn-gold px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-sm"
@@ -254,7 +254,7 @@ export default function MyBookingsPage() {
                     type="button"
                     disabled={cancellingId === b.id}
                     onClick={() => handleCancelBooking(b.id)}
-                    className="px-4 py-2.5 rounded-xl border border-rose-500/30 hover:bg-rose-500/10 text-rose-300 text-xs font-semibold transition-colors disabled:opacity-50"
+                    className="px-4 py-2.5 rounded-xl border border-rose-500/30 hover:bg-rose-500/10 text-rose-600 dark:text-rose-300 text-xs font-semibold transition-colors disabled:opacity-50"
                   >
                     {cancellingId === b.id ? 'Cancelling...' : 'Cancel Booking'}
                   </button>
@@ -265,11 +265,11 @@ export default function MyBookingsPage() {
         </div>
       ) : (
         <div className="text-center py-20 glass-card rounded-3xl p-8 space-y-4">
-          <Ticket className="w-16 h-16 text-gold-400 mx-auto opacity-70" />
-          <h3 className="font-serif text-xl font-bold text-ivory-100">
+          <Ticket className="w-16 h-16 text-gold-500 dark:text-gold-400 mx-auto opacity-70" />
+          <h3 className="font-serif text-xl font-bold text-charcoal-900 dark:text-ivory-100">
             No bookings found
           </h3>
-          <p className="text-sm text-charcoal-300 max-w-sm mx-auto font-light leading-relaxed">
+          <p className="text-sm text-charcoal-600 dark:text-charcoal-300 max-w-sm mx-auto font-light leading-relaxed">
             You don&apos;t have any {filterStatus !== 'all' ? filterStatus : ''} ticket bookings at the moment.
           </p>
           <Link

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../app');
@@ -17,7 +18,7 @@ describe('Ticket Booking, Concurrency & Cancellation Tests', () => {
   beforeAll(async () => {
     const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/heritage_connect';
     if (mongoose.connection.readyState === 0) {
-      await mongoose.connect(mongoUri);
+      await mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 5000 });
     }
 
     // Clean test accounts
@@ -79,9 +80,11 @@ describe('Ticket Booking, Concurrency & Cancellation Tests', () => {
   });
 
   afterAll(async () => {
-    await Booking.deleteMany({ siteId: testSite._id });
-    await TimeSlot.deleteMany({ siteId: testSite._id });
-    await BookableSite.deleteOne({ _id: testSite._id });
+    if (testSite && testSite._id) {
+      await Booking.deleteMany({ siteId: testSite._id });
+      await TimeSlot.deleteMany({ siteId: testSite._id });
+      await BookableSite.deleteOne({ _id: testSite._id });
+    }
     await User.deleteMany({ email: { $in: ['bookingtester1@example.com', 'bookingtester2@example.com'] } });
     await mongoose.connection.close();
   });

@@ -53,10 +53,10 @@ export default function ParticleBackground() {
         this.vy = Math.sin(angle) * speed;
         this.baseRadius = Math.random() * 1.5 + 1.0;
         this.radius = this.baseRadius;
-        // Warm gold / champagne hues with soft luminescence
+        // Warm hues with soft luminescence
         this.alpha = Math.random() * 0.35 + 0.2;
         this.baseAlpha = this.alpha;
-        this.hue = Math.random() > 0.6 ? 42 : 38; // Gold to amber tones
+        this.hue = Math.random() > 0.6 ? 42 : 36;
       }
 
       update() {
@@ -97,10 +97,15 @@ export default function ParticleBackground() {
         }
       }
 
-      draw() {
+      draw(isDark) {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${this.hue}, 85%, 65%, ${this.alpha})`;
+        if (isDark) {
+          ctx.fillStyle = `hsla(${this.hue}, 85%, 65%, ${this.alpha})`;
+        } else {
+          // Warm terracotta / sandstone gold in light mode
+          ctx.fillStyle = `hsla(28, 65%, 45%, ${this.alpha * 0.8})`;
+        }
         ctx.fill();
       }
     }
@@ -163,15 +168,16 @@ export default function ParticleBackground() {
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
+      const isDark = document.documentElement.classList.contains('dark');
       const pLen = particles.length;
 
       // Update & Draw particles
       for (let i = 0; i < pLen; i++) {
         const p = particles[i];
         p.update();
-        p.draw();
+        p.draw(isDark);
 
-        // Connect nearby particles with delicate glowing web
+        // Connect nearby particles with delicate web
         for (let j = i + 1; j < pLen; j++) {
           const p2 = particles[j];
           const dx = p.x - p2.x;
@@ -180,11 +186,13 @@ export default function ParticleBackground() {
 
           if (distSq < connectMaxDistSq) {
             const dist = Math.sqrt(distSq);
-            const lineAlpha = (1 - dist / connectMaxDist) * 0.16;
+            const lineAlpha = (1 - dist / connectMaxDist) * (isDark ? 0.16 : 0.2);
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(246, 205, 85, ${lineAlpha})`;
+            ctx.strokeStyle = isDark
+              ? `rgba(246, 205, 85, ${lineAlpha})`
+              : `rgba(180, 123, 73, ${lineAlpha})`;
             ctx.lineWidth = 0.75;
             ctx.stroke();
           }
@@ -199,11 +207,13 @@ export default function ParticleBackground() {
 
           if (mDistSq < mRadiusSq) {
             const mDist = Math.sqrt(mDistSq);
-            const mLineAlpha = (1 - mDist / mouse.radius) * 0.25;
+            const mLineAlpha = (1 - mDist / mouse.radius) * (isDark ? 0.25 : 0.3);
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = `rgba(230, 168, 23, ${mLineAlpha})`;
+            ctx.strokeStyle = isDark
+              ? `rgba(230, 168, 23, ${mLineAlpha})`
+              : `rgba(153, 96, 53, ${mLineAlpha})`;
             ctx.lineWidth = 0.85;
             ctx.stroke();
           }
@@ -217,7 +227,8 @@ export default function ParticleBackground() {
 
     // If prefers-reduced-motion is enabled, draw once statically
     if (prefersReducedMotion) {
-      particles.forEach((p) => p.draw());
+      const isDark = document.documentElement.classList.contains('dark');
+      particles.forEach((p) => p.draw(isDark));
     } else {
       render();
     }
@@ -243,11 +254,10 @@ export default function ParticleBackground() {
         className="absolute inset-0 block w-full h-full opacity-70"
       />
 
-      {/* Subtle deep ambient glow gradients (luxury navy/gold) */}
-      <div className="absolute -top-[20%] -left-[10%] w-[55vw] h-[55vw] rounded-full bg-gradient-to-br from-gold-500/[0.04] to-transparent blur-3xl pointer-events-none" />
-      <div className="absolute top-[40%] -right-[15%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-bl from-navy-600/[0.15] to-transparent blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-[20%] left-[20%] w-[60vw] h-[50vw] rounded-full bg-gradient-to-t from-gold-600/[0.03] to-transparent blur-3xl pointer-events-none" />
+      {/* Subtle deep ambient glow gradients (adaptive light & dark) */}
+      <div className="absolute -top-[20%] -left-[10%] w-[55vw] h-[55vw] rounded-full bg-gradient-to-br from-sandstone-400/[0.08] dark:from-gold-500/[0.04] to-transparent blur-3xl pointer-events-none transition-colors duration-500" />
+      <div className="absolute top-[40%] -right-[15%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-bl from-sandstone-300/[0.12] dark:from-navy-600/[0.15] to-transparent blur-3xl pointer-events-none transition-colors duration-500" />
+      <div className="absolute -bottom-[20%] left-[20%] w-[60vw] h-[50vw] rounded-full bg-gradient-to-t from-gold-500/[0.06] dark:from-gold-600/[0.03] to-transparent blur-3xl pointer-events-none transition-colors duration-500" />
     </div>
   );
 }
-

@@ -30,6 +30,7 @@ frontend/out/
 dist/
 build/
 coverage/
+backend/data/
 
 # Debug and Logs
 npm-debug.log*
